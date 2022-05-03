@@ -1,4 +1,6 @@
 #include <iostream>
+#include <SFML/Graphics.hpp>
+
 #include "burger.h"
 
 using namespace std;

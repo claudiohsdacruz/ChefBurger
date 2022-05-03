@@ -5,8 +5,9 @@ class Game
 private:
 	int _score;
 	int _time;
-	string _nomJoueur;
+	std::string _nomJoueur;
 	Burger _burger;
+	Client _client;
 public:
 	Game();
 	~Game();
