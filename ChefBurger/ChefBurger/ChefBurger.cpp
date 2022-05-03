@@ -3,7 +3,13 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "game.h"
+#include "demande.h"
+#include "client.h"
+#include "burger.h"
+
 using namespace sf;	//en mettant ce namespace, ça évite des sf::
+using namespace std; //en mettant ce namespace, ça évite des std::
 
 int main() {
 	RenderWindow window(VideoMode(800, 600), "Lost");
