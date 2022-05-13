@@ -22,6 +22,9 @@ int main() {
 	ingredient.drawIngredients();
 	game.play(); //Commence le jeu
 
+	Client client;
+	client.afficherClient();
+
 	
 	return 0;
 }

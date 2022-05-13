@@ -3,10 +3,10 @@
 class Client
 {
 private:
-	sf::RectangleShape _client;
-	sf::Texture _textureClient;
-	sf::IntRect _rectSprite;
+	sf::Texture textureclient;
+
 public:
 	Client();
 	~Client();
+	int afficherClient();
 };
