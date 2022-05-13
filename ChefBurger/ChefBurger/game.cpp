@@ -160,7 +160,7 @@ void Game::initialiseWindow()
 					}
 
 					if (event.mouseButton.x > 505 && event.mouseButton.x < 775 && event.mouseButton.y > 510 && event.mouseButton.y < 775) {
-						initialiseJeu();
+						//initialiseJeu();
 						setText(text);
 						if (!texture.loadFromFile("ressources/RestoInt.jpg"))
 						{
