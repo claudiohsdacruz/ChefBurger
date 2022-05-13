@@ -2,9 +2,12 @@
 //
 
 #include <SFML/Graphics.hpp>
+#include<vector>
 
 #include "client.h"
-#include "burger.h"
+//#include "burger.h"
+#include "ingredient.h"
+#include "fenetre.h"
 #include "game.h"
 
 
@@ -12,27 +15,10 @@ using namespace sf;	//en mettant ce namespace, ça évite des sf::
 using namespace std; //en mettant ce namespace, ça évite des std::
 
 int main() {
-	RenderWindow window(VideoMode(800, 600), "Lost");
-	Event event;
-	RectangleShape fondEcran;
-
-	window.setFramerateLimit(60);
-
-	fondEcran.setSize(Vector2f(800, 600));
-	fondEcran.setFillColor(Color::White);
-
 	
+	Game game; //Crée le jeu
 
-	while (window.isOpen()) {
-		while (window.pollEvent(event)) {
-			if (event.type == Event::Closed)
-				window.close();
-		}
-
-		window.clear();
-		window.draw(fondEcran);
-		window.display();
-	}
-
+	game.play(); //Commence le jeu
+	
 	return 0;
 }
