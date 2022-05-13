@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "client.h"
 #include "burger.h"
@@ -112,6 +113,16 @@ void Game::initialiseWindow()
 {
 	sf::Font font;
 	sf::Text text;
+
+	sf::Music backgroundMusic;
+	sf::Music gameplayMusic;
+
+	sf::SoundBuffer buffer;
+	buffer.loadFromFile("ressources/Click.ogg");
+
+	sf::Sound clickSound;
+	clickSound.setBuffer(buffer);
+
 	
 	RenderWindow window(VideoMode(1280, 800), "Chef Burger", Style::Close);
 	Event event;
@@ -133,11 +144,25 @@ void Game::initialiseWindow()
 	}
 	fondEcran.setTexture(&texture);
 
-	if (!font.loadFromFile("ressources/Lobster.ttf"))
+	if (!font.loadFromFile("ressources/LuckiestGuy.ttf"))
 	{
 		window.close();
 	}
 	text.setFont(font);
+
+	if (!backgroundMusic.openFromFile("ressources/MenuMusic.ogg"))
+	{
+		cout << "Erreur";
+	}
+
+	if (!gameplayMusic.openFromFile("ressources/gameMusic.ogg"))
+	{
+		cout << "Erreur";
+	}
+	
+	backgroundMusic.setVolume(50);
+	backgroundMusic.play();
+	
 
 	while (window.isOpen()) {
 		while (window.pollEvent(event)) {
@@ -145,10 +170,11 @@ void Game::initialiseWindow()
 				window.close();
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
+				clickSound.play();
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-					//std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					//std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
+					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 
 					if (event.mouseButton.x > 235 && event.mouseButton.x < 445 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
 						fondEcran.setTextureRect(rectSprite);
@@ -157,6 +183,7 @@ void Game::initialiseWindow()
 							window.close();
 						}
 						fondEcran.setTexture(&texture);
+						backgroundMusic.stop();
 					}
 
 					if (event.mouseButton.x > 505 && event.mouseButton.x < 775 && event.mouseButton.y > 510 && event.mouseButton.y < 775) {
@@ -166,6 +193,8 @@ void Game::initialiseWindow()
 						{
 							window.close();
 						}
+						backgroundMusic.stop();
+						gameplayMusic.play();
 						fondEcran.setTexture(&texture);
 					}
 
