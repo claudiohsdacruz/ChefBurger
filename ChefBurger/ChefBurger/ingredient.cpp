@@ -77,8 +77,8 @@ void Ingredients::drawIngredients()
 	window.setFramerateLimit(60);
 
 	RectangleShape arrierePlan;
-	arrierePlan.setPosition(0, 0);		//défini sa comptoir
-	arrierePlan.setSize(Vector2f(900, 600));	//défini ses dimensions
+	arrierePlan.setPosition(0, 0);		//dÃ©fini sa comptoir
+	arrierePlan.setSize(Vector2f(900, 600));	//dÃ©fini ses dimensions
 	arrierePlan.setFillColor(Color::White);
 	ingredients();
 
@@ -112,11 +112,11 @@ void Ingredients::drawIngredients()
 
 	while (window.isOpen())
 	{
-		Event Event; // inspecte les évenements
+		Event Event; // inspecte les Ã©venements
 
 		while (window.pollEvent(Event))
 		{
-			if (Event.type == Event::Closed) // evenement : Fermeture demandée donc on ferme la fenêtre 
+			if (Event.type == Event::Closed) // evenement : Fermeture demandÃ©e donc on ferme la fenÃªtre 
 			{
 				window.close();
 			}
@@ -131,14 +131,7 @@ void Ingredients::drawIngredients()
 		window.draw(_ingredients[0]);
 		window.display();
 	}
-	window.clear();
-	window.draw(arrierePlan);
-	window.draw(_ingredients[12]);
-	window.draw(_ingredients[index]);
-	window.draw(_ingredients[index1]);
-	window.draw(_ingredients[index2]);
-	window.draw(_ingredients[0]);
-	window.display();
+	
 }
 
 int Ingredients::ingredientAleatoire()
