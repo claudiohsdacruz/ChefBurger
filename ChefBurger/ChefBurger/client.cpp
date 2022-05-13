@@ -29,7 +29,7 @@ int Client::afficherClient()
 	Clock clock;
 
 
-	textureclient.loadFromFile("client/client1_souriant.png");
+	textureclient.loadFromFile("ressources/Clients/client1_souriant.png");
 	Sprite client1Souriant;
 	client1Souriant.setTexture(textureclient);
 	client1Souriant.setPosition(0, 0);
@@ -51,7 +51,7 @@ int Client::afficherClient()
 			client1Souriant.setPosition(j, 0);
 			elapsed = clock.restart();
 
-			textureclient.loadFromFile("client/client1_colerique.png");
+			textureclient.loadFromFile("ressources/Clients/client1_colerique.png");
 			Sprite client1Colerique;
 			client1Colerique.setTexture(textureclient);
 			client1Colerique.setPosition(j, 0);

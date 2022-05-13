@@ -118,7 +118,7 @@ void Game::initialiseWindow()
 	sf::Music gameplayMusic;
 
 	sf::SoundBuffer buffer;
-	buffer.loadFromFile("ressources/Click.ogg");
+	buffer.loadFromFile("ressources/Audios/Click.ogg");
 
 	sf::Sound clickSound;
 	clickSound.setBuffer(buffer);
@@ -138,24 +138,25 @@ void Game::initialiseWindow()
 	fondEcran.setTextureRect(rectSprite);
 	Texture texture;
 
-	if (!texture.loadFromFile("ressources/Menu.jpg"))
+	if (!texture.loadFromFile("ressources/Images/Menu.jpg"))
 	{
 		window.close();
 	}
+
 	fondEcran.setTexture(&texture);
 
-	if (!font.loadFromFile("ressources/LuckiestGuy.ttf"))
+	if (!font.loadFromFile("ressources/Polices/LuckiestGuy.ttf"))
 	{
 		window.close();
 	}
 	text.setFont(font);
 
-	if (!backgroundMusic.openFromFile("ressources/MenuMusic.ogg"))
+	if (!backgroundMusic.openFromFile("ressources/Audios/MenuMusic.ogg"))
 	{
 		cout << "Erreur";
 	}
 
-	if (!gameplayMusic.openFromFile("ressources/gameMusic.ogg"))
+	if (!gameplayMusic.openFromFile("ressources/Audios/gameMusic.ogg"))
 	{
 		cout << "Erreur";
 	}
@@ -178,7 +179,7 @@ void Game::initialiseWindow()
 
 					if (event.mouseButton.x > 235 && event.mouseButton.x < 445 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
 						fondEcran.setTextureRect(rectSprite);
-						if (!texture.loadFromFile("ressources/EnConstruction.jpg"))
+						if (!texture.loadFromFile("ressources/Images/EnConstruction.jpg"))
 						{
 							window.close();
 						}
@@ -189,7 +190,7 @@ void Game::initialiseWindow()
 					if (event.mouseButton.x > 505 && event.mouseButton.x < 775 && event.mouseButton.y > 510 && event.mouseButton.y < 775) {
 						//initialiseJeu();
 						setText(text);
-						if (!texture.loadFromFile("ressources/RestoInt.jpg"))
+						if (!texture.loadFromFile("ressources/Images/RestoInt.jpg"))
 						{
 							window.close();
 						}
