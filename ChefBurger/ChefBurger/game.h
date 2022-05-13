@@ -21,6 +21,7 @@ private:
 	//vector<Ingredient> _demande;
 	Client _client;
 	Fenetre _fenetre;
+	Ingredients _ingredients;
 
 public:
 	Game();
@@ -53,5 +54,6 @@ public:
 	void printLive(std::ostream& sortie) const;	//affiche le compteur de vie
 	void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
 	void printEndGame(std::ostream& sortie) const;//affiche game over et le score
+	void BurgerAleatoire();
 
 };

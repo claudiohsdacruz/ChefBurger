@@ -16,9 +16,12 @@ using namespace std; //en mettant ce namespace, ça évite des std::
 
 int main() {
 	
+	srand(time(NULL));
 	Game game; //Crée le jeu
-
+	Ingredients ingredient;
+	ingredient.drawIngredients();
 	game.play(); //Commence le jeu
+
 	
 	return 0;
 }

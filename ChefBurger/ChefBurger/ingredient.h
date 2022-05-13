@@ -1,11 +1,16 @@
 #pragma once
 
-class Ingredient
+class Ingredients
 {
-public:
-	Ingredient();
-	~Ingredient();
-
 private:
+	sf::Texture _textureIngredients;
+	sf::RectangleShape _ingredients[13];
+	std::vector <sf::Texture> _vecteurIngredients;
 
+public:
+	Ingredients();
+	~Ingredients();
+	void ingredients();
+	void drawIngredients();
+	int ingredientAleatoire();
 };
