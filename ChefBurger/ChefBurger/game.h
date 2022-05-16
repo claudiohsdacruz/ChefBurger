@@ -16,12 +16,14 @@ private:
 	bool _lose;
 
 	std::string _nomJoueur;
-
-	//vector<Ingredient> _ingredients;
-	//vector<Ingredient> _demande;
 	Client _client;
-	Fenetre _fenetre;
-	Ingredients _ingredients;
+	Ingredient _ingredient;
+	std::vector<std::string> _clients;
+	std::vector<std::string> _ingredients;
+	//Fenetre _fenetre;
+	//
+	//vector<Ingredient> _demande;
+
 
 public:
 	Game();
@@ -33,7 +35,7 @@ public:
 	bool getLose() const;
 	std::string getNomJoueur() const;
 	Client getClient()const;
-	Fenetre getFenetre() const;
+	//Fenetre getFenetre() const;
 
 	void setScore(int newScore);
 	void setTime(int newTime);
@@ -43,17 +45,25 @@ public:
 	void setClient(Client newClient);
 	void setText(sf::Text& text);
 	//void setFenetre(Fenetre tableau);
-
+	void ouvrirFichier(std::ifstream& fichierStream);
+	
 	void initialiseWindow();
 	void initialiseJeu();
 	std::string demanderNomJoueur();
 	void play();				//la main loop du jeu
+	int numAleatoire(int min, int max);
 	Client randClient() const;
+
 	void endGame();
 	void printScore(std::ostream& sortie) const;	//affiche le score
 	void printLive(std::ostream& sortie) const;	//affiche le compteur de vie
 	void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
 	void printEndGame(std::ostream& sortie) const;//affiche game over et le score
-	void BurgerAleatoire();
+	void remplirClients();
+	//void remplirIngredients();
+	//void remplirVector(std::vector<string> vector, string fichier);
+	//void trouverClient();
+	//void trouverIngredient();
+	//void BurgerAleatoire();
 
 };

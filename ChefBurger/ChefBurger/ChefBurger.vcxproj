@@ -147,14 +147,12 @@
     <ClCompile Include="client.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ingredient.cpp" />
-    <ClCompile Include="fenetre.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="burger.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="ingredient.h" />
-    <ClInclude Include="fenetre.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

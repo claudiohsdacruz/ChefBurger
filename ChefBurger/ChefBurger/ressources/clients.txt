@@ -1,0 +1,8 @@
+ressources/Clients/client1_souriant.png
+ressources/Clients/client2_souriant.png
+ressources/Clients/client3_souriant.png
+ressources/Clients/client4_souriant.png
+ressources/Clients/client1_colerique.png
+ressources/Clients/client2_colerique.png
+ressources/Clients/client3_colerique.png
+ressources/Clients/client4_colerique.png

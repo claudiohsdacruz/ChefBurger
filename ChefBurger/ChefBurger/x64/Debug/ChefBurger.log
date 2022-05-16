@@ -1,6 +1,2 @@
-﻿  client.cpp
-C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\client.cpp(51,32): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\client.cpp(57,33): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-  game.cpp
-  Génération de code en cours...
+﻿  game.cpp
   ChefBurger.vcxproj -> C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\x64\Debug\ChefBurger.exe

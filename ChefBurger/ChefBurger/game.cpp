@@ -1,11 +1,11 @@
 #include <iostream>
+#include <fstream>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
 #include "client.h"
 #include "burger.h"
 #include "ingredient.h"
-#include "fenetre.h"
 #include "game.h"
 
 using namespace sf;
@@ -18,10 +18,10 @@ Game::Game()
 	_life = 3;
 	_lose = false;
 	_nomJoueur = "NomInconnu";
-	//_ingredients = {};
-	//_demande = {};
+	_ingredient = Ingredient();
+	_clients = {};
 	_client = Client();
-	_fenetre = Fenetre();
+	//_fenetre = Fenetre();
 }
 
 Game::~Game()
@@ -30,11 +30,11 @@ Game::~Game()
 	_time = 0;
 	_life = 0;
 	_lose = true;
-	_nomJoueur = "NomInconnu";
-	//_ingredients = {};
+	_nomJoueur = "";
+	_ingredient.~Ingredient();
 	//_demande = {};
 	_client.~Client();
-	_fenetre.~Fenetre();
+	//_fenetre.~Fenetre();
 }
 
 int Game::getScore() const
@@ -66,12 +66,12 @@ Client Game::getClient() const
 {
 	return _client;
 }
-
+/*
 Fenetre Game::getFenetre() const
 {
 	return _fenetre;
 }
-
+*/
 void Game::setScore(int newScore)
 {
 	_score = newScore;
@@ -109,6 +109,25 @@ void Game::setText(sf::Text& text)
 	text.setFillColor(sf::Color::Black);
 }
 
+void ouvrirFichier(std::ifstream& fichierStream, std::string fichier)
+{
+	fichierStream.open(fichier);
+
+	if (!fichierStream.is_open())
+	{
+		cout << "Le fichier " << fichier << " est introuvable." << endl;
+		system("pause");
+		fichierStream.close();
+		exit(0);
+	}
+	//pour verifier si le fichier est vide
+	if (fichierStream.peek() == EOF) { 
+		cout << "Le fichier " << fichier << "est vide." << endl;
+		exit(0);
+	}
+}
+
+
 void Game::initialiseWindow()
 {
 	sf::Font font;
@@ -123,26 +142,26 @@ void Game::initialiseWindow()
 	sf::Sound clickSound;
 	clickSound.setBuffer(buffer);
 
-	
+
+
 	RenderWindow window(VideoMode(1280, 800), "Chef Burger", Style::Close);
 	Event event;
-	bool affiche = false;
 	
 	RectangleShape fondEcran;
-	vector<RectangleShape> ingredients;
+	RectangleShape demande;
+	Sprite client;
 
 	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
 	fondEcran.setSize(Vector2f(1280, 800));
+	IntRect rectFond(0, 0, 1208, 800);
 
-	IntRect rectSprite(0, 0, 1280, 800);
-	fondEcran.setTextureRect(rectSprite);
+	
+	
 	Texture texture;
-
 	if (!texture.loadFromFile("ressources/Images/Menu.jpg"))
 	{
 		window.close();
 	}
-
 	fondEcran.setTexture(&texture);
 
 	if (!font.loadFromFile("ressources/Polices/LuckiestGuy.ttf"))
@@ -178,7 +197,7 @@ void Game::initialiseWindow()
 					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
 
 					if (event.mouseButton.x > 235 && event.mouseButton.x < 445 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
-						fondEcran.setTextureRect(rectSprite);
+						fondEcran.setTextureRect(rectFond);
 						if (!texture.loadFromFile("ressources/Images/EnConstruction.jpg"))
 						{
 							window.close();
@@ -188,8 +207,8 @@ void Game::initialiseWindow()
 					}
 
 					if (event.mouseButton.x > 505 && event.mouseButton.x < 775 && event.mouseButton.y > 510 && event.mouseButton.y < 775) {
-						//initialiseJeu();
-						setText(text);
+						initialiseJeu();
+						//setText(text);
 						if (!texture.loadFromFile("ressources/Images/RestoInt.jpg"))
 						{
 							window.close();
@@ -197,6 +216,19 @@ void Game::initialiseWindow()
 						backgroundMusic.stop();
 						gameplayMusic.play();
 						fondEcran.setTexture(&texture);
+
+
+						demande.setSize(Vector2f(200, 400));
+						IntRect rectDemande(1000, 60, 200, 400);
+						demande.setPosition(1000, 60);
+						demande.setFillColor(Color::White);
+
+						//trouverClient();
+						Texture textureClient;
+						textureClient.loadFromFile("ressources/Clients/client1_souriant_red.png");
+						client.setTexture(textureClient);
+						client.setPosition(600, 197);
+
 					}
 
 					if (event.mouseButton.x > 835 && event.mouseButton.x < 1045 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
@@ -208,6 +240,8 @@ void Game::initialiseWindow()
 		}
 		window.clear();
 		window.draw(fondEcran);
+		window.draw(demande);
+		window.draw(client);
 		window.draw(text);
 		window.display();
 	}
@@ -218,7 +252,11 @@ void Game::initialiseJeu()
 	_lose = false;
 	_score = 0;
 	_time = 0;
-	_nomJoueur = demanderNomJoueur();
+	//remplirClients();
+	//remplirIngredients();
+	//_nomJoueur = demanderNomJoueur();
+
+	
 
 	//this->createDemande();
 	//_demande.draw(cout);
@@ -294,6 +332,10 @@ void Game::play()
 
 	this->printEndGame(cout); //Affiche la message de fin du jeu
 }
+int Game::numAleatoire(int min, int max)
+{
+	return rand() % max + min;
+}
 /*
 Burger Game::randIngredient() const
 {
@@ -340,3 +382,73 @@ void Game::printEndGame(std::ostream& sortie) const
 	sortie << "GAME OVER!";
 	*/
 }
+/*
+void Game::remplirClients()
+{
+	ifstream fichierStream;
+	std::string image;
+	//std::string fichier = "ressources/clients.txt";
+	ouvrirFichier(fichierStream, "ressources/clients.txt");
+	
+	while (!fichierStream.eof())
+	{
+		fichierStream >> image;
+		_clients.push_back(image);
+	}
+}
+/*
+void Game::remplirIngredients()
+{
+	ifstream fichierStream;
+	std::string image;
+	std::string fichier = "resources/ingredients.txt";
+	ouvrirFichier(fichierStream, fichier);
+
+	while (!fichierStream.eof())
+	{
+		fichierStream >> image;
+		_ingredients.push_back(image);
+	}
+}*/
+/*
+void remplirVector(std::vector<string> vector, string fichier)
+{
+	ifstream fichierStream;
+	std::string image;
+	
+	ouvrirFichier(fichierStream, fichier);
+
+	while (!fichierStream.eof())
+	{
+		fichierStream >> image;
+		vector.push_back(image);
+	}
+}
+*/
+
+/*
+void Game::trouverClient()
+{
+	int index = numAleatoire(0, 4);
+	string chemin = _clients.at(index);
+	cout << index << " - " << chemin << endl;
+	Texture textureClient;
+	textureClient.loadFromFile(chemin);
+	_client.setTexture(textureClient);
+	_client.setPosX(600);
+	_client.setPosY(197);
+}
+
+void Game::trouverIngredient()
+{
+	int index = numAleatoire(2, 13);
+	string chemin = _ingredients.at(index);
+	cout << index << " - " << chemin << endl;
+	Texture texture;
+	texture.loadFromFile(chemin);
+	_client.setTexture(texture);
+	_client.setPosX(1000);
+	_client.setPosY(60);
+}
+*/
+
