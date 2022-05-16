@@ -108,25 +108,25 @@ void Game::setText(sf::Text& text)
 	text.setString("Nom du jouer : ");
 	text.setFillColor(sf::Color::Black);
 }
-
-void ouvrirFichier(std::ifstream& fichierStream, std::string fichier)
+/*
+void ouvrirFichier(std::ifstream& monFlux, std::string fichier)
 {
-	fichierStream.open(fichier);
+	monFlux.open(fichier);
 
-	if (!fichierStream.is_open())
+	if (!monFlux.is_open())
 	{
 		cout << "Le fichier " << fichier << " est introuvable." << endl;
 		system("pause");
-		fichierStream.close();
+		monFlux.close();
 		exit(0);
 	}
 	//pour verifier si le fichier est vide
-	if (fichierStream.peek() == EOF) { 
+	if (monFlux.peek() == EOF) { 
 		cout << "Le fichier " << fichier << "est vide." << endl;
 		exit(0);
 	}
 }
-
+*/
 
 void Game::initialiseWindow()
 {
@@ -222,8 +222,8 @@ void Game::initialiseWindow()
 						IntRect rectDemande(1000, 60, 200, 400);
 						demande.setPosition(1000, 60);
 						demande.setFillColor(Color::White);
-
-						//trouverClient();
+						trouverIngredient();
+						trouverClient();
 						Texture textureClient;
 						textureClient.loadFromFile("ressources/Clients/client1_souriant_red.png");
 						client.setTexture(textureClient);
@@ -252,8 +252,8 @@ void Game::initialiseJeu()
 	_lose = false;
 	_score = 0;
 	_time = 0;
-	//remplirClients();
-	//remplirIngredients();
+	remplirClients();
+	remplirIngredients();
 	//_nomJoueur = demanderNomJoueur();
 
 	
@@ -334,7 +334,7 @@ void Game::play()
 }
 int Game::numAleatoire(int min, int max)
 {
-	return rand() % max + min;
+	return rand() % (max - min + 1) + min;
 }
 /*
 Burger Game::randIngredient() const
@@ -382,51 +382,59 @@ void Game::printEndGame(std::ostream& sortie) const
 	sortie << "GAME OVER!";
 	*/
 }
-/*
+
 void Game::remplirClients()
 {
-	ifstream fichierStream;
+	ifstream fluxClients;
 	std::string image;
-	//std::string fichier = "ressources/clients.txt";
-	ouvrirFichier(fichierStream, "ressources/clients.txt");
 	
-	while (!fichierStream.eof())
+	fluxClients.open("ressources/clients.txt");
+
+	if (!fluxClients.is_open())
 	{
-		fichierStream >> image;
+		cout << "Le fichier clients.txt est introuvable." << endl;
+		system("pause");
+		fluxClients.close();
+		exit(0);
+	}
+	//pour verifier si le fichier est vide
+	if (fluxClients.peek() == EOF) {
+		cout << "Le fichier clients.txt est vide." << endl;
+		exit(0);
+	}
+	while (!fluxClients.eof())
+	{
+		fluxClients >> image;
 		_clients.push_back(image);
 	}
 }
-/*
+
 void Game::remplirIngredients()
 {
-	ifstream fichierStream;
+	ifstream fluxIngredients;
 	std::string image;
-	std::string fichier = "resources/ingredients.txt";
-	ouvrirFichier(fichierStream, fichier);
+	fluxIngredients.open("ressources/ingredients.txt");
 
-	while (!fichierStream.eof())
+	if (!fluxIngredients.is_open())
 	{
-		fichierStream >> image;
+		cout << "Le fichier ingredients.txt est introuvable." << endl;
+		system("pause");
+		fluxIngredients.close();
+		exit(0);
+	}
+	//pour verifier si le fichier est vide
+	if (fluxIngredients.peek() == EOF) {
+		cout << "Le fichier ingredients.txt est vide." << endl;
+		exit(0);
+	}
+
+	while (!fluxIngredients.eof())
+	{
+		fluxIngredients >> image;
 		_ingredients.push_back(image);
 	}
-}*/
-/*
-void remplirVector(std::vector<string> vector, string fichier)
-{
-	ifstream fichierStream;
-	std::string image;
-	
-	ouvrirFichier(fichierStream, fichier);
-
-	while (!fichierStream.eof())
-	{
-		fichierStream >> image;
-		vector.push_back(image);
-	}
 }
-*/
 
-/*
 void Game::trouverClient()
 {
 	int index = numAleatoire(0, 4);
@@ -449,6 +457,22 @@ void Game::trouverIngredient()
 	_client.setTexture(texture);
 	_client.setPosX(1000);
 	_client.setPosY(60);
+}
+
+/*
+void viderBuffer()
+{
+	cin.clear();			//on reset le flux pour que la suite parte d’un flux valide
+	cin.seekg(0, ios::end);	//se place à la fin, si ça marche, le flux est non vide
+
+	if (!cin.fail()) //Le flux est valide, donc le buffer est non vide
+	{
+		cin.ignore(numeric_limits<streamsize>::max());
+	}
+	else //Le flux est invalide, donc le buffer est vide
+	{
+		cin.clear(); 		// Le flux est dans un état invalide donc on le remet en état valide
+	}
 }
 */
 

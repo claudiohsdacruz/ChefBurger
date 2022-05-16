@@ -20,6 +20,7 @@ private:
 	Ingredient _ingredient;
 	std::vector<std::string> _clients;
 	std::vector<std::string> _ingredients;
+	//std::vector < vector<std::string>> _scores;
 	//Fenetre _fenetre;
 	//
 	//vector<Ingredient> _demande;
@@ -45,7 +46,7 @@ public:
 	void setClient(Client newClient);
 	void setText(sf::Text& text);
 	//void setFenetre(Fenetre tableau);
-	void ouvrirFichier(std::ifstream& fichierStream);
+	//void ouvrirFichier(std::ifstream& fichierStream, std::string fichier);
 	
 	void initialiseWindow();
 	void initialiseJeu();
@@ -60,10 +61,12 @@ public:
 	void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
 	void printEndGame(std::ostream& sortie) const;//affiche game over et le score
 	void remplirClients();
-	//void remplirIngredients();
-	//void remplirVector(std::vector<string> vector, string fichier);
-	//void trouverClient();
-	//void trouverIngredient();
+	void remplirIngredients();
+
+	void trouverClient();
+	void trouverIngredient();
 	//void BurgerAleatoire();
+	//void viderBuffer;
+	
 
 };

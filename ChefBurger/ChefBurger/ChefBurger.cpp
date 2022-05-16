@@ -16,6 +16,8 @@ using namespace std; //en mettant ce namespace, ça évite des std::
 
 int main() {
 	
+	locale::global(locale{ "" });
+
 	srand(time(NULL));
 	Game game; //Crée le jeu
 	
