@@ -16,6 +16,7 @@ private:
 	bool _lose;
 
 	std::string _nomJoueur;
+	std::string _ligneScore;
 	Client _client;
 	Ingredient _ingredient;
 	std::vector<std::string> _clients;
@@ -36,7 +37,6 @@ public:
 	bool getLose() const;
 	std::string getNomJoueur() const;
 	Client getClient()const;
-	//Fenetre getFenetre() const;
 
 	void setScore(int newScore);
 	void setTime(int newTime);
@@ -45,9 +45,7 @@ public:
 	void setNomJoueur(std::string newNomJoueur);
 	void setClient(Client newClient);
 	void setText(sf::Text& text);
-	//void setFenetre(Fenetre tableau);
-	//void ouvrirFichier(std::ifstream& fichierStream, std::string fichier);
-	
+
 	void initialiseWindow();
 	void initialiseJeu();
 	std::string demanderNomJoueur();
@@ -60,12 +58,17 @@ public:
 	void printLive(std::ostream& sortie) const;	//affiche le compteur de vie
 	void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
 	void printEndGame(std::ostream& sortie) const;//affiche game over et le score
+	
 	void remplirClients();
 	void remplirIngredients();
 
 	void trouverClient();
 	void trouverIngredient();
-	//void BurgerAleatoire();
+
+	void creerLigneScore(std::string mot);
+	void enregistrerLigneScore();
+	void ordonerScore(std::ifstream& monFlux, std::vector<vector<string>> scores);
+	void afficherScores();
 	//void viderBuffer;
 	
 

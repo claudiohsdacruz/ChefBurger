@@ -18,6 +18,7 @@ Game::Game()
 	_life = 3;
 	_lose = false;
 	_nomJoueur = "NomInconnu";
+	_ligneScore = "";
 	_ingredient = Ingredient();
 	_clients = {};
 	_client = Client();
@@ -141,7 +142,6 @@ void Game::initialiseWindow()
 
 	sf::Sound clickSound;
 	clickSound.setBuffer(buffer);
-
 
 
 	RenderWindow window(VideoMode(1280, 800), "Chef Burger", Style::Close);
@@ -336,12 +336,7 @@ int Game::numAleatoire(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
 }
-/*
-Burger Game::randIngredient() const
-{
-	return Burger();
-}
-*/
+
 Client Game::randClient() const
 {
 	return Client();
@@ -458,6 +453,65 @@ void Game::trouverIngredient()
 	_client.setPosX(1000);
 	_client.setPosY(60);
 }
+
+void Game::creerLigneScore(std::string mot)
+{
+	_ligneScore += mot + " ";
+}
+
+void Game::enregistrerLigneScore()
+{
+	ofstream monFlux("ressources/score.txt", ios::app);
+
+	if (!monFlux)
+	{
+		cout << "ERREUR: Impossible d'ouvrir le fichier" << endl;
+		exit(1);
+	}
+	monFlux << _ligneScore << endl;
+
+	monFlux.close();
+}
+
+void ordonerScores(std::ifstream& monFlux, std::vector<vector<string>> scores)
+{
+	string jouer, score;
+
+	while (!monFlux.eof()) {
+		monFlux >> jouer >> score;
+		scores[0].push_back(score);
+		scores[1].push_back(jouer);
+	}
+	sort(scores.begin(), scores.end());
+}
+
+void Game::afficherScores()
+{
+	int position = 0;
+	ifstream monFlux("ressources/score.txt");
+	vector<vector<string>> scores;
+
+	if (!monFlux)
+	{
+		cout << "ERREUR: Impossible d'ouvrir le fichier" << endl;
+		exit(1);
+	}
+
+	ordonerScores(monFlux, scores);
+
+	cout << "  Class  Joueur  Score  " << endl;
+	cout << "  --------------------  " << endl;
+	while (position < scores.size()) {
+		cout.width(10);
+		cout << position + 1 << "º" << scores[1].at(position) << scores[0].at(position);
+		position++;
+	}
+
+	system("pause");
+	monFlux.close();
+}
+
+
 
 /*
 void viderBuffer()
