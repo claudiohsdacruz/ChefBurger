@@ -21,11 +21,6 @@ private:
 	Ingredient _ingredient;
 	std::vector<std::string> _clients;
 	std::vector<std::string> _ingredients;
-	//std::vector < vector<std::string>> _scores;
-	//Fenetre _fenetre;
-	//
-	//vector<Ingredient> _demande;
-
 
 public:
 	Game();
@@ -67,7 +62,7 @@ public:
 
 	void creerLigneScore(std::string mot);
 	void enregistrerLigneScore();
-	void ordonerScore(std::ifstream& monFlux, std::vector<vector<string>> scores);
+	void ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2]);
 	void afficherScores();
 	//void viderBuffer;
 	

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -22,7 +23,6 @@ Game::Game()
 	_ingredient = Ingredient();
 	_clients = {};
 	_client = Client();
-	//_fenetre = Fenetre();
 }
 
 Game::~Game()
@@ -35,7 +35,6 @@ Game::~Game()
 	_ingredient.~Ingredient();
 	//_demande = {};
 	_client.~Client();
-	//_fenetre.~Fenetre();
 }
 
 int Game::getScore() const
@@ -67,12 +66,7 @@ Client Game::getClient() const
 {
 	return _client;
 }
-/*
-Fenetre Game::getFenetre() const
-{
-	return _fenetre;
-}
-*/
+
 void Game::setScore(int newScore)
 {
 	_score = newScore;
@@ -109,25 +103,6 @@ void Game::setText(sf::Text& text)
 	text.setString("Nom du jouer : ");
 	text.setFillColor(sf::Color::Black);
 }
-/*
-void ouvrirFichier(std::ifstream& monFlux, std::string fichier)
-{
-	monFlux.open(fichier);
-
-	if (!monFlux.is_open())
-	{
-		cout << "Le fichier " << fichier << " est introuvable." << endl;
-		system("pause");
-		monFlux.close();
-		exit(0);
-	}
-	//pour verifier si le fichier est vide
-	if (monFlux.peek() == EOF) { 
-		cout << "Le fichier " << fichier << "est vide." << endl;
-		exit(0);
-	}
-}
-*/
 
 void Game::initialiseWindow()
 {
@@ -150,6 +125,9 @@ void Game::initialiseWindow()
 	RectangleShape fondEcran;
 	RectangleShape demande;
 	Sprite client;
+	Sprite ingredient;
+	Texture textureClient;
+	Texture textureIngredient;
 
 	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
 	fondEcran.setSize(Vector2f(1280, 800));
@@ -207,7 +185,7 @@ void Game::initialiseWindow()
 					}
 
 					if (event.mouseButton.x > 505 && event.mouseButton.x < 775 && event.mouseButton.y > 510 && event.mouseButton.y < 775) {
-						initialiseJeu();
+						
 						//setText(text);
 						if (!texture.loadFromFile("ressources/Images/RestoInt.jpg"))
 						{
@@ -216,7 +194,7 @@ void Game::initialiseWindow()
 						backgroundMusic.stop();
 						gameplayMusic.play();
 						fondEcran.setTexture(&texture);
-
+						initialiseJeu();
 
 						demande.setSize(Vector2f(200, 400));
 						IntRect rectDemande(1000, 60, 200, 400);
@@ -224,10 +202,14 @@ void Game::initialiseWindow()
 						demande.setFillColor(Color::White);
 						trouverIngredient();
 						trouverClient();
-						Texture textureClient;
+						
 						textureClient.loadFromFile("ressources/Clients/client1_souriant_red.png");
 						client.setTexture(textureClient);
 						client.setPosition(600, 197);
+
+						textureIngredient.loadFromFile("ressources/Ingredients/2Bun.png");
+						ingredient.setTexture(textureIngredient);
+						ingredient.setPosition(1000, 347);
 
 					}
 
@@ -242,6 +224,7 @@ void Game::initialiseWindow()
 		window.draw(fondEcran);
 		window.draw(demande);
 		window.draw(client);
+		window.draw(ingredient);
 		window.draw(text);
 		window.display();
 	}
@@ -254,6 +237,7 @@ void Game::initialiseJeu()
 	_time = 0;
 	remplirClients();
 	remplirIngredients();
+
 	//_nomJoueur = demanderNomJoueur();
 
 	
@@ -281,7 +265,6 @@ void Game::play()
 {
 	initialiseWindow();
 	
-	//srand(time(NULL));
 	//this->initialize(); //Initialise la Game(initialise le booléen, le score, le burger et le client)
 	/*
 	while (!_lose)
@@ -437,7 +420,7 @@ void Game::trouverClient()
 	cout << index << " - " << chemin << endl;
 	Texture textureClient;
 	textureClient.loadFromFile(chemin);
-	_client.setTexture(textureClient);
+	//_client.setTexture(textureClient);
 	_client.setPosX(600);
 	_client.setPosY(197);
 }
@@ -449,7 +432,7 @@ void Game::trouverIngredient()
 	cout << index << " - " << chemin << endl;
 	Texture texture;
 	texture.loadFromFile(chemin);
-	_client.setTexture(texture);
+	//_client.setTexture(texture);
 	_client.setPosX(1000);
 	_client.setPosY(60);
 }
@@ -473,7 +456,7 @@ void Game::enregistrerLigneScore()
 	monFlux.close();
 }
 
-void ordonerScores(std::ifstream& monFlux, std::vector<vector<string>> scores)
+void Game::ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2])
 {
 	string jouer, score;
 
@@ -482,14 +465,18 @@ void ordonerScores(std::ifstream& monFlux, std::vector<vector<string>> scores)
 		scores[0].push_back(score);
 		scores[1].push_back(jouer);
 	}
-	sort(scores.begin(), scores.end());
+	for (int i = 0; i < 2; i++)
+	{
+		sort(scores[i].begin(), scores[i].end());
+	}
+	
 }
 
 void Game::afficherScores()
 {
 	int position = 0;
 	ifstream monFlux("ressources/score.txt");
-	vector<vector<string>> scores;
+	vector<string> scores[2];
 
 	if (!monFlux)
 	{
@@ -501,7 +488,7 @@ void Game::afficherScores()
 
 	cout << "  Class  Joueur  Score  " << endl;
 	cout << "  --------------------  " << endl;
-	while (position < scores.size()) {
+	while (!monFlux.eof()) {
 		cout.width(10);
 		cout << position + 1 << "º" << scores[1].at(position) << scores[0].at(position);
 		position++;

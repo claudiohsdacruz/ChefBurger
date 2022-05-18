@@ -11,8 +11,8 @@ private:
 	int _width;
 	int _height;
 	std::string _name;
-	sf::Texture _texture;
-	sf::RectangleShape _retangle;
+	//sf::Texture _texture;
+	//sf::RectangleShape _retangle;
 
 public:
 	Ingredient();
@@ -23,18 +23,18 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	std::string getName() const;
-	sf::Texture getTexture() const;
-	sf::RectangleShape getRetangle();
+	//sf::Texture getTexture() const;
+	//sf::RectangleShape getRetangle();
 
 	void setPosX(int x);
 	void setPosY(int y);
 	void setWidth(int w);
 	void setHeight(int h);
 	void setName(std::string newName);
-	void setTexture(sf::Texture newTexture);
-	void setRetangle(sf::RectangleShape newRetangle);
+	//void setTexture(sf::Texture newTexture);
+	//void setRetangle(sf::RectangleShape newRetangle);
 
-	void drawIngredient();
+	//void drawIngredient();
 
 	/*
 	void ingredients();

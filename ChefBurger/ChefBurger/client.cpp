@@ -1,14 +1,14 @@
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 #include <iostream>
 #include "client.h"
 
 using namespace std;
-using namespace sf;
+//using namespace sf;
 
 
 Client::Client()
 {
-	_texture.loadFromFile("ressources/Clients/blanc.png");
+	//_texture.loadFromFile("ressources/Clients/client1_souriant.png");
 	_posX = 0;
 	_posY = 0;
 	_width = 200;
@@ -18,7 +18,7 @@ Client::Client()
 
 Client::~Client()
 {
-	_texture.loadFromFile("ressources/Clients/blanc.png");
+	//_texture.loadFromFile("ressources/Clients/blanc.png");
 	_posX = 0;
 	_posY = 0;
 	_width = 0;
@@ -50,7 +50,7 @@ std::string Client::getName() const
 {
 	return _name;
 }
-
+/*
 sf::Texture Client::getTexture() const
 {
 	return _texture;
@@ -60,7 +60,7 @@ sf::RectangleShape Client::getRetangle()
 {
 	return _retangle;
 }
-
+*/
 void Client::setPosX(int x)
 {
 	_posX = x;
@@ -85,7 +85,7 @@ void Client::setName(std::string newName)
 {
 	_name = newName;
 }
-
+/*
 void Client::setTexture(sf::Texture newTexture)
 {
 	_texture = newTexture;
@@ -95,7 +95,8 @@ void Client::setRetangle(sf::RectangleShape newRetangle)
 {
 	_retangle = newRetangle;
 }
-
+*/
+/*
 void Client::drawClient()
 {
 
@@ -152,29 +153,7 @@ int Client::afficherClient()
 			elapsed = clock.restart();
 		}
 
-		/*textureclient.loadFromFile("client/client2_souriant.png");
-		Sprite client2Souriant;
-		client2Souriant.setTexture(textureclient);
-		client2Souriant.setPosition(0, 0);
-
-
-		elapsed = clock.getElapsedTime();
-		elapsed.asSeconds();
-
-		if (elapsed.asSeconds() >= 15)
-		{
-			//cout << "allo";
-			client2Souriant.setTexture(textureclient);
-			client2Souriant.setPosition(j, 0);
-			elapsed = clock.restart();
-
-			textureclient.loadFromFile("client/client2_colerique.png");
-			Sprite client2colerique;
-			client2colerique.setTexture(textureclient);
-			client2colerique.setPosition(j, 0);
-			j += 800;
-			elapsed = clock.restart();
-		}*/
+		
 
 		window.clear();
 		window.draw(fondEcran);
@@ -185,3 +164,4 @@ int Client::afficherClient()
 	return 0;
 
 }
+*/
