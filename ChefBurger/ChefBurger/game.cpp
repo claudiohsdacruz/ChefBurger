@@ -127,26 +127,16 @@ void Game::initialiseWindow()
 	RectangleShape fondEcran;
 	//RectangleShape demande;
 	Sprite client;
-	Sprite bun1;
-	Sprite bun2;
-	Sprite ingredient1;
-	Sprite ingredient2;
-	Sprite ingredient3;
 
 	Texture textureClient;
-	Texture textureBun1;
-	Texture textureBun2;
-	Texture textureIngredient1;
-	Texture textureIngredient2;
-	Texture textureIngredient3;
+
 	
 
 	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
 	fondEcran.setSize(Vector2f(1280, 800));
 	IntRect rectFond(0, 0, 1208, 800);
 
-	
-	
+
 	Texture texture;
 	if (!texture.loadFromFile("ressources/Images/Menu.jpg"))
 	{
@@ -169,7 +159,8 @@ void Game::initialiseWindow()
 	{
 		cout << "Erreur";
 	}
-	
+
+
 	backgroundMusic.setVolume(50);
 	backgroundMusic.play();
 
@@ -224,40 +215,17 @@ void Game::initialiseWindow()
 						client.setScale(0.45, 0.45);
 						client.setPosition(600, 197);
 						elapsed = clock.restart();
-
-						textureBun1.loadFromFile("ressources/Ingredients/1Bun.png");
-						bun1.setTexture(textureBun1);
-						bun1.setPosition(1000, 127);
-
-						textureBun2.loadFromFile("ressources/Ingredients/2Bun.png");
-						bun2.setTexture(textureBun2);
-						bun2.setPosition(1000, 347);
-
-						trouverIngredient();
-						textureIngredient1.loadFromFile(_textureIngredient);
-						ingredient1.setTexture(textureIngredient1);
-						ingredient1.setPosition(1000, 297);
-
-						trouverIngredient();
-						textureIngredient2.loadFromFile(_textureIngredient);
-						ingredient2.setTexture(textureIngredient2);
-						ingredient2.setPosition(1000, 247);
-
-						trouverIngredient();
-						textureIngredient3.loadFromFile(_textureIngredient);
-						ingredient3.setTexture(textureIngredient3);
-						ingredient3.setPosition(1000, 197);
-
 					}
 
 					if (event.mouseButton.x > 835 && event.mouseButton.x < 1045 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
 						window.close();
 					}
-
 					
 				}
+				_ingredient.drawIngredients(window);
+				_ingredient.ingredientsAleatoires();
 			}
-
+			
 			if (elapsed.asSeconds() >= 10)
 			{
 				cout << "allo" << endl;
@@ -265,7 +233,6 @@ void Game::initialiseWindow()
 				client.setTexture(textureClient);
 				client.setPosition(600, 197);
 				client.setScale(0.45, 0.45);
-
 				elapsed = clock.restart();
 			}
 		}
@@ -273,12 +240,23 @@ void Game::initialiseWindow()
 		window.draw(fondEcran);
 		//window.draw(demande);
 		window.draw(client);
-		window.draw(bun2);
-		window.draw(ingredient1);
-		window.draw(ingredient2);
-		window.draw(ingredient3);
-		window.draw(bun1);
+
+		for (int i = 0; i < 5; i++)
+		{
+			window.draw(_ingredient.getIngredients(i));
+		}
+
 		window.draw(text);
+		
+		for (int i = 0; i < 12; i++)
+		{
+			window.draw(_ingredient.getIngredients2(i));
+		}
+
+		for (int i = 0; i < _ingredient.getPosSize(); i++)
+		{
+			window.draw(_ingredient.getIngredientsChoisis(_ingredient.getPos(i)));
+		}
 		window.display();
 	}
 }
