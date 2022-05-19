@@ -118,6 +118,8 @@ void Game::initialiseWindow()
 	sf::Sound clickSound;
 	clickSound.setBuffer(buffer);
 
+	Clock clock;
+	Time elapsed;
 
 	RenderWindow window(VideoMode(1280, 800), "Chef Burger", Style::Close);
 	Event event;
@@ -170,12 +172,15 @@ void Game::initialiseWindow()
 	
 	backgroundMusic.setVolume(50);
 	backgroundMusic.play();
-	
 
 	while (window.isOpen()) {
 		while (window.pollEvent(event)) {
 			if (event.type == Event::Closed)
 				window.close();
+			
+			elapsed = clock.getElapsedTime();
+			elapsed.asSeconds();
+			
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				clickSound.play();
@@ -193,7 +198,8 @@ void Game::initialiseWindow()
 						fondEcran.setTexture(&texture);
 						backgroundMusic.stop();
 					}
-
+					
+					
 					if (event.mouseButton.x > 505 && event.mouseButton.x < 775 && event.mouseButton.y > 510 && event.mouseButton.y < 775) {
 						
 						//setText(text);
@@ -212,10 +218,12 @@ void Game::initialiseWindow()
 						//demande.setFillColor(Color::White);
 						
 						trouverClient();
-						textureClient.loadFromFile(_textureClient);
+						
+						textureClient.loadFromFile(_textureClient1);
 						client.setTexture(textureClient);
 						client.setScale(0.45, 0.45);
 						client.setPosition(600, 197);
+						elapsed = clock.restart();
 
 						textureBun1.loadFromFile("ressources/Ingredients/1Bun.png");
 						bun1.setTexture(textureBun1);
@@ -245,9 +253,21 @@ void Game::initialiseWindow()
 					if (event.mouseButton.x > 835 && event.mouseButton.x < 1045 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
 						window.close();
 					}
+
+					
 				}
 			}
-			
+
+			if (elapsed.asSeconds() >= 10)
+			{
+				cout << "allo" << endl;
+				textureClient.loadFromFile(_textureClient2);
+				client.setTexture(textureClient);
+				client.setPosition(600, 197);
+				client.setScale(0.45, 0.45);
+
+				elapsed = clock.restart();
+			}
 		}
 		window.clear();
 		window.draw(fondEcran);
@@ -270,18 +290,6 @@ void Game::initialiseJeu()
 	_time = 0;
 	remplirClients();
 	remplirIngredients();
-
-	//_nomJoueur = demanderNomJoueur();
-
-	
-
-	//this->createDemande();
-	//_demande.draw(cout);
-	//this->createClient();
-	//_client.draw(cout);
-
-	//this->printScore(cout);
-	//this->printTime(cout);
 }
 
 std::string Game::demanderNomJoueur()
@@ -449,8 +457,10 @@ void Game::remplirIngredients()
 void Game::trouverClient()
 {
 	int index = numAleatoire(0, 3);
-	_textureClient = _clients.at(index);
-	//cout << index + 1 << " - " << _textureClient << endl;
+	_textureClient1 = _clients.at(index);
+	_textureClient2 = _clients.at(index + 4);
+	cout << index + 1 << " - " << _textureClient1 << endl;
+	cout << index + 1 << " - " << _textureClient2 << endl;
 }
 
 void Game::trouverIngredient()

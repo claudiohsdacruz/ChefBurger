@@ -20,7 +20,8 @@ private:
 	Client _client;
 	Ingredient _ingredient;
 
-	std::string _textureClient;
+	std::string _textureClient1;
+	std::string _textureClient2;
 	std::string _textureIngredient;
 	std::vector<std::string> _clients;
 	std::vector<std::string> _ingredients;

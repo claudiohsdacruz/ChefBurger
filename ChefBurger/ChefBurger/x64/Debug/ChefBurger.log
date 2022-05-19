@@ -1,2 +1,4 @@
-﻿  ingredient.cpp
+﻿  game.cpp
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\game.cpp(224,33): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\game.cpp(267,31): warning C4305: 'argument' : troncation de 'double' à 'float'
   ChefBurger.vcxproj -> C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\x64\Debug\ChefBurger.exe
