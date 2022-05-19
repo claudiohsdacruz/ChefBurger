@@ -13,7 +13,7 @@ Client::Client()
 	_posY = 0;
 	_width = 200;
 	_height = 263;
-	_name = "client1";
+	//_name = "client1";
 }
 
 Client::~Client()
@@ -23,7 +23,7 @@ Client::~Client()
 	_posY = 0;
 	_width = 0;
 	_height = 0;
-	_name = "";
+	//_name = "";
 }
 
 int Client::getPosX() const
@@ -45,11 +45,11 @@ int Client::getHeight() const
 {
 	return _height;
 }
-
+/*
 std::string Client::getName() const
 {
 	return _name;
-}
+}*/
 /*
 sf::Texture Client::getTexture() const
 {
@@ -80,11 +80,11 @@ void Client::setHeight(int h)
 {
 	_height = h;
 }
-
+/*
 void Client::setName(std::string newName)
 {
 	_name = newName;
-}
+}*/
 /*
 void Client::setTexture(sf::Texture newTexture)
 {

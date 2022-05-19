@@ -10,12 +10,10 @@ using namespace std;
 
 Ingredient::Ingredient()
 {
-	//_texture.loadFromFile("ressources/Ingredients/Blanc.png");
 	_posX = 0;
 	_posY = 0;
 	_width = 200;
 	_height = 150;
-	_name = "Bun_bas";
 	
 	/*
 	_textureIngredients.loadFromFile("ressources/Ingredients/2 Bun.png");
@@ -34,12 +32,10 @@ Ingredient::Ingredient()
 
 Ingredient::~Ingredient()
 {
-	//_texture.loadFromFile("ressources/Ingredients/blanc.png");
 	_posX = 0;
 	_posY = 0;
 	_width = 0;
 	_height = 0;
-	_name = "";
 
 	/*
 	_textureIngredients.loadFromFile("");
@@ -73,16 +69,7 @@ int Ingredient::getHeight() const
 	return _height;
 }
 
-std::string Ingredient::getName() const
-{
-	return _name;
-}
 /*
-sf::Texture Ingredient::getTexture() const
-{
-	return _texture;
-}
-
 sf::RectangleShape Ingredient::getRetangle()
 {
 	return _retangle;
@@ -107,17 +94,7 @@ void Ingredient::setHeight(int h)
 {
 	_height = h;
 }
-
-void Ingredient::setName(std::string newName)
-{
-	_name = newName;
-}
 /*
-void Ingredient::setTexture(sf::Texture newTexture)
-{
-	_texture = newTexture;
-}
-
 void Ingredient::setRetangle(sf::RectangleShape newRetangle)
 {
 	_retangle = newRetangle;

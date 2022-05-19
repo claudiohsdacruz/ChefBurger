@@ -19,6 +19,9 @@ private:
 	std::string _ligneScore;
 	Client _client;
 	Ingredient _ingredient;
+
+	std::string _textureClient;
+	std::string _textureIngredient;
 	std::vector<std::string> _clients;
 	std::vector<std::string> _ingredients;
 

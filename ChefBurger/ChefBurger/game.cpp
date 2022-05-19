@@ -123,11 +123,21 @@ void Game::initialiseWindow()
 	Event event;
 	
 	RectangleShape fondEcran;
-	RectangleShape demande;
+	//RectangleShape demande;
 	Sprite client;
-	Sprite ingredient;
+	Sprite bun1;
+	Sprite bun2;
+	Sprite ingredient1;
+	Sprite ingredient2;
+	Sprite ingredient3;
+
 	Texture textureClient;
-	Texture textureIngredient;
+	Texture textureBun1;
+	Texture textureBun2;
+	Texture textureIngredient1;
+	Texture textureIngredient2;
+	Texture textureIngredient3;
+	
 
 	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
 	fondEcran.setSize(Vector2f(1280, 800));
@@ -196,20 +206,39 @@ void Game::initialiseWindow()
 						fondEcran.setTexture(&texture);
 						initialiseJeu();
 
-						demande.setSize(Vector2f(200, 400));
-						IntRect rectDemande(1000, 60, 200, 400);
-						demande.setPosition(1000, 60);
-						demande.setFillColor(Color::White);
-						trouverIngredient();
-						trouverClient();
+						//demande.setSize(Vector2f(200, 400));
+						//IntRect rectDemande(1000, 60, 200, 400);
+						//demande.setPosition(1000, 60);
+						//demande.setFillColor(Color::White);
 						
-						textureClient.loadFromFile("ressources/Clients/client1_souriant_red.png");
+						trouverClient();
+						textureClient.loadFromFile(_textureClient);
 						client.setTexture(textureClient);
+						client.setScale(0.45, 0.45);
 						client.setPosition(600, 197);
 
-						textureIngredient.loadFromFile("ressources/Ingredients/2Bun.png");
-						ingredient.setTexture(textureIngredient);
-						ingredient.setPosition(1000, 347);
+						textureBun1.loadFromFile("ressources/Ingredients/1Bun.png");
+						bun1.setTexture(textureBun1);
+						bun1.setPosition(1000, 127);
+
+						textureBun2.loadFromFile("ressources/Ingredients/2Bun.png");
+						bun2.setTexture(textureBun2);
+						bun2.setPosition(1000, 347);
+
+						trouverIngredient();
+						textureIngredient1.loadFromFile(_textureIngredient);
+						ingredient1.setTexture(textureIngredient1);
+						ingredient1.setPosition(1000, 297);
+
+						trouverIngredient();
+						textureIngredient2.loadFromFile(_textureIngredient);
+						ingredient2.setTexture(textureIngredient2);
+						ingredient2.setPosition(1000, 247);
+
+						trouverIngredient();
+						textureIngredient3.loadFromFile(_textureIngredient);
+						ingredient3.setTexture(textureIngredient3);
+						ingredient3.setPosition(1000, 197);
 
 					}
 
@@ -222,9 +251,13 @@ void Game::initialiseWindow()
 		}
 		window.clear();
 		window.draw(fondEcran);
-		window.draw(demande);
+		//window.draw(demande);
 		window.draw(client);
-		window.draw(ingredient);
+		window.draw(bun2);
+		window.draw(ingredient1);
+		window.draw(ingredient2);
+		window.draw(ingredient3);
+		window.draw(bun1);
 		window.draw(text);
 		window.display();
 	}
@@ -415,26 +448,16 @@ void Game::remplirIngredients()
 
 void Game::trouverClient()
 {
-	int index = numAleatoire(0, 4);
-	string chemin = _clients.at(index);
-	cout << index << " - " << chemin << endl;
-	Texture textureClient;
-	textureClient.loadFromFile(chemin);
-	//_client.setTexture(textureClient);
-	_client.setPosX(600);
-	_client.setPosY(197);
+	int index = numAleatoire(0, 3);
+	_textureClient = _clients.at(index);
+	//cout << index + 1 << " - " << _textureClient << endl;
 }
 
 void Game::trouverIngredient()
 {
 	int index = numAleatoire(2, 13);
-	string chemin = _ingredients.at(index);
-	cout << index << " - " << chemin << endl;
-	Texture texture;
-	texture.loadFromFile(chemin);
-	//_client.setTexture(texture);
-	_client.setPosX(1000);
-	_client.setPosY(60);
+	_textureIngredient = _ingredients.at(index);
+	//cout << index + 1 << " - " << _textureIngredient << endl;
 }
 
 void Game::creerLigneScore(std::string mot)
