@@ -15,16 +15,20 @@ private:
 	int _life;
 	bool _lose;
 
+	sf::Text _text;
 	std::string _nomJoueur;
 	std::string _ligneScore;
+	
 	Client _client;
 	Ingredient _ingredient;
+	
 
 	std::string _textureClient1;
 	std::string _textureClient2;
 	std::string _textureIngredient;
 	std::vector<std::string> _clients;
 	std::vector<std::string> _ingredients;
+	std::vector<sf::Sprite> _burger;
 
 public:
 	Game();
@@ -34,6 +38,7 @@ public:
 	int getTime() const;
 	int getLife() const;
 	bool getLose() const;
+
 	std::string getNomJoueur() const;
 	Client getClient()const;
 
@@ -43,7 +48,8 @@ public:
 	void setLose(bool lose);
 	void setNomJoueur(std::string newNomJoueur);
 	void setClient(Client newClient);
-	void setText(sf::Text& text);
+	void setText(sf::Text& text, const char* message, sf::Font& font, int posX, int posY, int taille, const sf::Color& color);
+	void setIngredientChoisi(int x, int y, int i);
 
 	void initialiseWindow();
 	void initialiseJeu();
@@ -54,7 +60,6 @@ public:
 
 	void endGame();
 	void printScore(std::ostream& sortie) const;	//affiche le score
-	void printLive(std::ostream& sortie) const;	//affiche le compteur de vie
 	void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
 	void printEndGame(std::ostream& sortie) const;//affiche game over et le score
 	
@@ -63,12 +68,12 @@ public:
 
 	void trouverClient();
 	void trouverIngredient();
+	void afficherIngredientChoisi(sf::Texture& texture, sf::Sprite& ingredientChoisi, int index);
 
 	void creerLigneScore(std::string mot);
 	void enregistrerLigneScore();
 	void ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2]);
 	void afficherScores();
-	//void viderBuffer;
 	
 
 };

@@ -1,6 +1,7 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <fstream>
 #include <vector>
+#include <conio.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
@@ -97,17 +98,25 @@ void Game::setClient(Client newClient)
 	_client = newClient;
 }
 
-void Game::setText(sf::Text& text)
+void Game::setText(sf::Text& text, const char* message, sf::Font& font, int posX, int posY, int taille, const sf::Color& color)
 {
-	text.setCharacterSize(48);
-	text.setString("Nom du jouer : ");
-	text.setFillColor(sf::Color::Black);
+	_text.setCharacterSize(taille);
+	_text.setString(message);
+	_text.setFillColor(color);
+	_text.setPosition(posX, posY);
+}
+
+void Game::setIngredientChoisi(int x, int y, int i)
+{
+	_ingredient.getIngredientsChoisis(i).setPosition(x,y);
+
 }
 
 void Game::initialiseWindow()
 {
 	sf::Font font;
-	sf::Text text;
+	//sf::Text text;
+	bool affiche = true;
 
 	sf::Music backgroundMusic;
 	sf::Music gameplayMusic;
@@ -123,30 +132,28 @@ void Game::initialiseWindow()
 
 	RenderWindow window(VideoMode(1280, 800), "Chef Burger", Style::Close);
 	Event event;
-	
+
 	RectangleShape fondEcran;
 	//RectangleShape demande;
 	Sprite client;
-	Sprite bun1;
-	Sprite bun2;
-	Sprite ingredient1;
-	Sprite ingredient2;
-	Sprite ingredient3;
+	Sprite ingredientChoisi;
 
 	Texture textureClient;
-	Texture textureBun1;
-	Texture textureBun2;
-	Texture textureIngredient1;
-	Texture textureIngredient2;
-	Texture textureIngredient3;
-	
+	Texture textureIngredient;
+
+	char lettre = 20;
+
+	vector <int> _pos;
+	int i = 0;
+	bool toucher = false;
+	float x = 450;
+	float y = 400;
 
 	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
 	fondEcran.setSize(Vector2f(1280, 800));
 	IntRect rectFond(0, 0, 1208, 800);
 
-	
-	
+
 	Texture texture;
 	if (!texture.loadFromFile("ressources/Images/Menu.jpg"))
 	{
@@ -158,7 +165,7 @@ void Game::initialiseWindow()
 	{
 		window.close();
 	}
-	text.setFont(font);
+	_text.setFont(font);
 
 	if (!backgroundMusic.openFromFile("ressources/Audios/MenuMusic.ogg"))
 	{
@@ -169,18 +176,65 @@ void Game::initialiseWindow()
 	{
 		cout << "Erreur";
 	}
-	
+
+
 	backgroundMusic.setVolume(50);
 	backgroundMusic.play();
 
 	while (window.isOpen()) {
+		if (affiche) {
+			setText(_text, "Touche <Espace> pour jouer", font, 350, 700, 42, Color::White);
+		}
 		while (window.pollEvent(event)) {
+
 			if (event.type == Event::Closed)
 				window.close();
-			
+
 			elapsed = clock.getElapsedTime();
 			elapsed.asSeconds();
-			
+
+			if (event.type == Event::KeyPressed) {
+				if (event.key.code == Keyboard::Space) {
+					affiche = false;
+					_text.setString("");
+					if (!texture.loadFromFile("ressources/Images/RestoInt.jpg"))
+					{
+						window.close();
+					}
+					backgroundMusic.stop();
+					gameplayMusic.play();
+					fondEcran.setTexture(&texture);
+					initialiseJeu();
+
+					trouverClient();
+
+					textureClient.loadFromFile(_textureClient1);
+					client.setTexture(textureClient);
+					client.setScale(0.40, 0.40);
+					client.setPosition(600, 178);
+					elapsed = clock.restart();
+
+					_ingredient.drawIngredients();
+					_ingredient.ingredientsAleatoires();
+				}
+			}
+			/*
+			setText(_text, "Quel est votre nom ? ", font, 630, 400, 40, Color::Red);
+			if (event.type == sf::Event::TextEntered)
+			{
+				if (event.text.unicode < 128)
+					lettre = 20;
+
+				while (lettre != 13) {
+					cout << "letre : " << static_cast<char>(event.text.unicode) << endl;
+					lettre = _getch();
+					_nomJoueur += lettre;
+					//setText(text, _nomJoueur);
+
+				}
+				cout << _nomJoueur << endl;
+			}
+			*/
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				clickSound.play();
@@ -188,72 +242,210 @@ void Game::initialiseWindow()
 				{
 					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
 					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
-
-					if (event.mouseButton.x > 235 && event.mouseButton.x < 445 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
-						fondEcran.setTextureRect(rectFond);
-						if (!texture.loadFromFile("ressources/Images/EnConstruction.jpg"))
-						{
-							window.close();
-						}
-						fondEcran.setTexture(&texture);
-						backgroundMusic.stop();
-					}
 					
-					
-					if (event.mouseButton.x > 505 && event.mouseButton.x < 775 && event.mouseButton.y > 510 && event.mouseButton.y < 775) {
+				}
+
+			}
+
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+
+					if (event.mouseButton.x > 109 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
+					{
+						//premier pain
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 0);
+						//_burger.push_back(ingredientChoisi);
 						
-						//setText(text);
-						if (!texture.loadFromFile("ressources/Images/RestoInt.jpg"))
+						_pos.push_back(0);
+						_ingredient.setIngredientChoisi(x, y, 0);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 270 && event.mouseButton.x < 340 && event.mouseButton.y > 522 && event.mouseButton.y < 561)
+					{
+						//Avocat
+						_pos.push_back(1);
+						if (toucher)
 						{
-							window.close();
+							y -= 20;
 						}
-						backgroundMusic.stop();
-						gameplayMusic.play();
-						fondEcran.setTexture(&texture);
-						initialiseJeu();
-
-						//demande.setSize(Vector2f(200, 400));
-						//IntRect rectDemande(1000, 60, 200, 400);
-						//demande.setPosition(1000, 60);
-						//demande.setFillColor(Color::White);
-						
-						trouverClient();
-						
-						textureClient.loadFromFile(_textureClient1);
-						client.setTexture(textureClient);
-						client.setScale(0.45, 0.45);
-						client.setPosition(600, 197);
-						elapsed = clock.restart();
-
-						textureBun1.loadFromFile("ressources/Ingredients/1Bun.png");
-						bun1.setTexture(textureBun1);
-						bun1.setPosition(1000, 127);
-
-						textureBun2.loadFromFile("ressources/Ingredients/2Bun.png");
-						bun2.setTexture(textureBun2);
-						bun2.setPosition(1000, 347);
-
-						trouverIngredient();
-						textureIngredient1.loadFromFile(_textureIngredient);
-						ingredient1.setTexture(textureIngredient1);
-						ingredient1.setPosition(1000, 297);
-
-						trouverIngredient();
-						textureIngredient2.loadFromFile(_textureIngredient);
-						ingredient2.setTexture(textureIngredient2);
-						ingredient2.setPosition(1000, 247);
-
-						trouverIngredient();
-						textureIngredient3.loadFromFile(_textureIngredient);
-						ingredient3.setTexture(textureIngredient3);
-						ingredient3.setPosition(1000, 197);
-
+						_ingredient.setIngredientChoisi(x, y, 1);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 1);
+						//_burger.push_back(ingredientChoisi);
 					}
 
-					if (event.mouseButton.x > 835 && event.mouseButton.x < 1045 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
-						window.close();
+					if (event.mouseButton.x > 430 && event.mouseButton.x < 495 && event.mouseButton.y > 530 && event.mouseButton.y < 558)
+					{
+						//Bacon
+						_pos.push_back(2);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 2);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 2);
+						//_burger.push_back(ingredientChoisi);
 					}
 
+					if (event.mouseButton.x > 614 && event.mouseButton.x < 668 && event.mouseButton.y > 525 && event.mouseButton.y < 556)
+					{
+						//boeuf
+						_pos.push_back(3);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 3);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 3);
+						//_burger.push_back(ingredientChoisi);
+					}
+
+					if (event.mouseButton.x > 750 && event.mouseButton.x < 850 && event.mouseButton.y > 520 && event.mouseButton.y < 570)
+					{
+						//cornichon
+						_pos.push_back(4);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 4);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 4);
+						//_burger.push_back(ingredientChoisi);
+					}
+
+					if (event.mouseButton.x > 900 && event.mouseButton.x < 1020 && event.mouseButton.y > 520 && event.mouseButton.y < 570)
+					{
+						//Salade
+						_pos.push_back(5);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 5);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 5);
+						//_burger.push_back(ingredientChoisi);
+					
+					}
+
+					if (event.mouseButton.x > 1070 && event.mouseButton.x < 1175 && event.mouseButton.y > 527 && event.mouseButton.y < 660)
+					{
+						//Oeuf
+						_pos.push_back(6);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 6);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 6);
+						//window.draw(ingredientChoisi);
+						
+					}
+
+					if (event.mouseButton.x > 112 && event.mouseButton.x < 176 && event.mouseButton.y > 620 && event.mouseButton.y < 666)
+					{
+						//Oignon
+						_pos.push_back(7);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 7);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 7);
+						//_burger.push_back(ingredientChoisi);
+	
+					}
+
+					if (event.mouseButton.x > 269 && event.mouseButton.x < 341 && event.mouseButton.y > 621 && event.mouseButton.y < 663)
+					{
+						//Poivron
+						_pos.push_back(8);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 8);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 8);
+						//_burger.push_back(ingredientChoisi);
+					
+					}
+
+					if (event.mouseButton.x > 430 && event.mouseButton.x < 530 && event.mouseButton.y > 621 && event.mouseButton.y < 660)
+					{
+						//tomate
+						_pos.push_back(9);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 9);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 9);
+						//_burger.push_back(ingredientChoisi);
+					
+					}
+
+					if (event.mouseButton.x > 590 && event.mouseButton.x < 690 && event.mouseButton.y > 627 && event.mouseButton.y < 662)
+					{
+						//Jambon
+						_pos.push_back(10);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 10);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 10);
+						//_burger.push_back(ingredientChoisi);
+					}
+
+					if (event.mouseButton.x > 740 && event.mouseButton.x < 860 && event.mouseButton.y > 623 && event.mouseButton.y < 651)
+					{
+						//Fromage
+						_pos.push_back(11);
+
+						if (toucher)
+						{
+							y -= 15;
+						}
+						_ingredient.setIngredientChoisi(x, y, 11);
+						toucher = true;
+						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 11);
+						//_burger.push_back(ingredientChoisi);
+					}
+
+					if (event.mouseButton.x > 905 && event.mouseButton.x < 1045 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
+					{
+						//pas affichable, position dÃ©jÃ  occupÃ©e
+						//deuxiÃ¨me pain
+						_pos.push_back(12);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 12);
+						toucher = true;
+						afficherIngredientChoisi(textureIngredient, ingredientChoisi, 12);
+						_burger.push_back(ingredientChoisi);
+					}
 					
 				}
 			}
@@ -263,22 +455,35 @@ void Game::initialiseWindow()
 				cout << "allo" << endl;
 				textureClient.loadFromFile(_textureClient2);
 				client.setTexture(textureClient);
-				client.setPosition(600, 197);
-				client.setScale(0.45, 0.45);
-
+				client.setPosition(600, 178);
+				client.setScale(0.40, 0.40);
 				elapsed = clock.restart();
+
 			}
 		}
 		window.clear();
 		window.draw(fondEcran);
-		//window.draw(demande);
+		//window.draw(ingredientChoisi);
 		window.draw(client);
-		window.draw(bun2);
-		window.draw(ingredient1);
-		window.draw(ingredient2);
-		window.draw(ingredient3);
-		window.draw(bun1);
-		window.draw(text);
+		/*
+		for (Sprite item : _burger) {
+			window.draw(item);
+		}*/
+		for (int i = 0; i < 5; i++){
+			window.draw(_ingredient.getIngredients(i));
+		}
+
+		window.draw(_text);
+
+		for (int i = 0; i < 13; i++)
+		{
+			window.draw(_ingredient.getIngredients2(i));
+		}
+		
+		for (int i = 0; i < _pos.size(); i++)
+		{
+			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
+		}
 		window.display();
 	}
 }
@@ -305,57 +510,13 @@ std::string Game::demanderNomJoueur()
 void Game::play()
 {
 	initialiseWindow();
-	
-	//this->initialize(); //Initialise la Game(initialise le booléen, le score, le burger et le client)
-	/*
-	while (!_lose)
-	{
-		Burger burger = _burger.; //Prend la position de la tete du serpent
-		Point a = _apple.getPoint(); //Prend la position de la pomme
-		Point newPosition;
 
-		do
-		{
-			this->inputKey(); //Saisit la touche
-			newPosition = _snake.newPosition(_dir);
-		} while (!this->canMove(newPosition));
-
-		if (_dir != 0)
-		{
-			cout << _snake; //Initialise la prochaine position du Snake selon la direction
-
-			if (_snake.ifCollision(p) || _snake.getHeadPosition().getX() == 39 || _snake.getHeadPosition().getX() == 0 ||
-				_snake.getHeadPosition().getY() == 19 || _snake.getHeadPosition().getY() == 0)
-			{
-				_snake.deleteSnake();	//Efface le serpent
-				_cptLive--;				//Diminue le nb de vie
-				_snake.initialize(20, 10); //Inicialize une nouvelle serpent
-				_plateau.draw(cout);	//Affiche le plateau du jeu
-				_dir = 2;				//Initialise une direction
-				this->printLive(cout); //Affiche le nb de vie
-				if (_cptLive == 0)
-				{
-					this->endGame();	//finalise le jeu
-				}
-			}
-			else if (p.getX() == a.getX() && p.getY() == a.getY())
-			{
-				_snake.eat(_dir); //Le snake mange une pomme(avance et allonge)
-				_score++; //Augmente le score
-				this->printScore(cout); //Affiche le score
-				this->createApple(); //Génère une nouvelle pomme
-			}
-			else
-			{
-				_snake.move(_dir); //Le Snake avance à cette nouvelle position
-			}
-
-		}
-	}
-	*/
+	//
 
 	this->printEndGame(cout); //Affiche la message de fin du jeu
 }
+
+
 int Game::numAleatoire(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
@@ -380,14 +541,6 @@ void Game::printScore(std::ostream& sortie) const
 	*/
 }
 
-void Game::printLive(std::ostream& sortie) const
-{
-	/*
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-	gotoxy(0, 21);
-	sortie << "Score : " << _score;
-	*/
-}
 
 void Game::printTime(std::ostream& sortie) const
 {
@@ -406,7 +559,7 @@ void Game::remplirClients()
 {
 	ifstream fluxClients;
 	std::string image;
-	
+
 	fluxClients.open("ressources/clients.txt");
 
 	if (!fluxClients.is_open())
@@ -425,6 +578,10 @@ void Game::remplirClients()
 	{
 		fluxClients >> image;
 		_clients.push_back(image);
+	}
+	for (int i = 0; i < _clients.size(); i++)
+	{
+		cout << _clients.at(i) << endl;
 	}
 }
 
@@ -452,6 +609,10 @@ void Game::remplirIngredients()
 		fluxIngredients >> image;
 		_ingredients.push_back(image);
 	}
+	for (int i = 0; i < _ingredients.size(); i++)
+	{
+		cout << _ingredients.at(i) << endl;
+	}
 }
 
 void Game::trouverClient()
@@ -469,6 +630,16 @@ void Game::trouverIngredient()
 	_textureIngredient = _ingredients.at(index);
 	//cout << index + 1 << " - " << _textureIngredient << endl;
 }
+
+void Game::afficherIngredientChoisi(Texture& texture, Sprite& ingredientChoisi, int index)
+{
+	_textureIngredient = _ingredients.at(index);
+	texture.loadFromFile(_textureIngredient);
+	ingredientChoisi.setTexture(texture);
+	ingredientChoisi.setScale(0.70, 0.70);
+	ingredientChoisi.setPosition(400, 378 - index * 30);
+}
+
 
 void Game::creerLigneScore(std::string mot)
 {
@@ -502,7 +673,7 @@ void Game::ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores
 	{
 		sort(scores[i].begin(), scores[i].end());
 	}
-	
+
 }
 
 void Game::afficherScores()
@@ -523,30 +694,11 @@ void Game::afficherScores()
 	cout << "  --------------------  " << endl;
 	while (!monFlux.eof()) {
 		cout.width(10);
-		cout << position + 1 << "º" << scores[1].at(position) << scores[0].at(position);
+		cout << position + 1 << "Âº" << scores[1].at(position) << scores[0].at(position);
 		position++;
 	}
 
 	system("pause");
 	monFlux.close();
 }
-
-
-
-/*
-void viderBuffer()
-{
-	cin.clear();			//on reset le flux pour que la suite parte d’un flux valide
-	cin.seekg(0, ios::end);	//se place à la fin, si ça marche, le flux est non vide
-
-	if (!cin.fail()) //Le flux est valide, donc le buffer est non vide
-	{
-		cin.ignore(numeric_limits<streamsize>::max());
-	}
-	else //Le flux est invalide, donc le buffer est vide
-	{
-		cin.clear(); 		// Le flux est dans un état invalide donc on le remet en état valide
-	}
-}
-*/
 

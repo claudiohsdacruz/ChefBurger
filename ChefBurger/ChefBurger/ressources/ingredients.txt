@@ -1,13 +1,13 @@
-ressources/Ingredients/1Bun.png
 ressources/Ingredients/2Bun.png
 ressources/Ingredients/Avocat.png
 ressources/Ingredients/Bacon.png
 ressources/Ingredients/Boeuf.png
 ressources/Ingredients/Cornichon.png
-ressources/Ingredients/Fromage.png
 ressources/Ingredients/Laitue.png
 ressources/Ingredients/Oeuf.png
 ressources/Ingredients/Oignon.png
 ressources/Ingredients/Poivron.png
 ressources/Ingredients/Tomate.png
 ressources/Ingredients/Viande.png
+ressources/Ingredients/Fromage.png
+ressources/Ingredients/1Bun.png
