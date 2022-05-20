@@ -1,9 +1,4 @@
-﻿  ChefBurger.cpp
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ChefBurger.cpp(21,12): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
-  game.cpp
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(215,33): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(235,31): warning C4305: 'argument' : troncation de 'double' à 'float'
-  ingredient.cpp
+﻿  ingredient.cpp
 C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(23,38): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
 C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(23,31): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
 C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(24,44): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
@@ -28,6 +23,7 @@ C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(42,
           [
               T=float
           ]
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(70,20): warning C4267: 'return' : conversion de 'size_t' en 'int', perte possible de données
-  Génération de code en cours...
+C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(69,20): warning C4267: 'return' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(94,39): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(94,36): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
   ChefBurger.vcxproj -> C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\x64\Debug\ChefBurger.exe
