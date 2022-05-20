@@ -62,7 +62,6 @@ public:
 	void remplirIngredients();
 
 	void trouverClient();
-	void trouverIngredient();
 
 	void creerLigneScore(std::string mot);
 	void enregistrerLigneScore();

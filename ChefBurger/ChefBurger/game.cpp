@@ -130,7 +130,11 @@ void Game::initialiseWindow()
 
 	Texture textureClient;
 
-	
+	vector <int> _pos;
+	int i = 0;
+	bool toucher = false;
+	float x = 450;
+	float y = 400;
 
 	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
 	fondEcran.setSize(Vector2f(1280, 800));
@@ -188,6 +192,7 @@ void Game::initialiseWindow()
 						}
 						fondEcran.setTexture(&texture);
 						backgroundMusic.stop();
+						
 					}
 					
 					
@@ -220,12 +225,185 @@ void Game::initialiseWindow()
 					if (event.mouseButton.x > 835 && event.mouseButton.x < 1045 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
 						window.close();
 					}
-					
 				}
-				_ingredient.drawIngredients(window);
+				
+				_ingredient.drawIngredients();
 				_ingredient.ingredientsAleatoires();
 			}
 			
+
+			
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+
+					if (event.mouseButton.x > 109 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
+					{
+						//premier pain
+						_pos.push_back(0);
+						_ingredient.setIngredientChoisi(x, y, 0);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 270 && event.mouseButton.x < 340 && event.mouseButton.y > 522 && event.mouseButton.y < 561)
+					{
+						//Avocat
+						_pos.push_back(1);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 1);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 430 && event.mouseButton.x < 495 && event.mouseButton.y > 530 && event.mouseButton.y < 558)
+					{
+						//Bacon
+						_pos.push_back(2);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 2);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 614 && event.mouseButton.x < 668 && event.mouseButton.y > 525 && event.mouseButton.y < 556)
+					{
+						//boeuf
+						_pos.push_back(3);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 3);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 758 && event.mouseButton.x < 810 && event.mouseButton.y > 525 && event.mouseButton.y < 563)
+					{
+						//cornichon
+						_pos.push_back(4);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 4);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 0 && event.mouseButton.x < 0 && event.mouseButton.y > 0 && event.mouseButton.y < 0)
+					{
+						//pas affichable, position déjà occupée
+						//Salade
+						_pos.push_back(5);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 5);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 1075 && event.mouseButton.x < 1134 && event.mouseButton.y > 527 && event.mouseButton.y < 660)
+					{
+						//Oeuf
+						_pos.push_back(6);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 6);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 112 && event.mouseButton.x < 176 && event.mouseButton.y > 620 && event.mouseButton.y < 666)
+					{
+						//Oignon
+						_pos.push_back(7);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 7);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 269 && event.mouseButton.x < 341 && event.mouseButton.y > 621 && event.mouseButton.y < 663)
+					{
+						//Poivron
+						_pos.push_back(8);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 8);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 435 && event.mouseButton.x < 498 && event.mouseButton.y > 621 && event.mouseButton.y < 660)
+					{
+						//tomate
+						_pos.push_back(9);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 9);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 597 && event.mouseButton.x < 655 && event.mouseButton.y > 627 && event.mouseButton.y < 662)
+					{
+						//Jambon
+						_pos.push_back(10);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 10);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 759 && event.mouseButton.x < 813 && event.mouseButton.y > 623 && event.mouseButton.y < 651)
+					{
+						//Fromage
+						_pos.push_back(11);
+
+						if (toucher)
+						{
+							y -= 15;
+						}
+						_ingredient.setIngredientChoisi(x, y, 11);
+						toucher = true;
+					}
+
+					if (event.mouseButton.x > 1113 && event.mouseButton.x < 1178 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
+					{
+						//pas affichable, position déjà occupée
+						//deuxième pain
+						_pos.push_back(12);
+
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 12);
+						toucher = true;
+					}
+				}
+			}
+		
 			if (elapsed.asSeconds() >= 10)
 			{
 				cout << "allo" << endl;
@@ -234,6 +412,7 @@ void Game::initialiseWindow()
 				client.setPosition(600, 197);
 				client.setScale(0.45, 0.45);
 				elapsed = clock.restart();
+				
 			}
 		}
 		window.clear();
@@ -248,14 +427,14 @@ void Game::initialiseWindow()
 
 		window.draw(text);
 		
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < 13; i++)
 		{
 			window.draw(_ingredient.getIngredients2(i));
 		}
 
-		for (int i = 0; i < _ingredient.getPosSize(); i++)
-		{
-			window.draw(_ingredient.getIngredientsChoisis(_ingredient.getPos(i)));
+		for (int i = 0; i < _pos.size(); i++)
+		{                  
+			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
 		}
 		window.display();
 	}
@@ -441,12 +620,6 @@ void Game::trouverClient()
 	cout << index + 1 << " - " << _textureClient2 << endl;
 }
 
-void Game::trouverIngredient()
-{
-	int index = numAleatoire(2, 13);
-	_textureIngredient = _ingredients.at(index);
-	//cout << index + 1 << " - " << _textureIngredient << endl;
-}
 
 void Game::creerLigneScore(std::string mot)
 {
