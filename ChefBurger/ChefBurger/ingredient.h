@@ -8,8 +8,13 @@ private:
 	int _width;
 	int _height;
 	std::string _name;
-	//sf::Texture _texture;
-	//sf::RectangleShape _retangle;
+	sf::Texture _textureIngredients;
+	sf::RectangleShape _ingredients[5];//Pour les ingredients aléatoires
+	sf::RectangleShape _ingredients2[13];//Pour afficher les ingrédients sur lesquelles cliqués
+	sf::RectangleShape _ingredientsChoisi[13];//Pour afficher les ingrédients cliqués par le joueur
+	std::vector <sf::Texture> _vecteurIngredients;
+	std::vector <int> _pos;
+
 
 public:
 	Ingredient();
@@ -19,23 +24,22 @@ public:
 	int getPosY() const;
 	int getWidth() const;
 	int getHeight() const;
-	//std::string getName() const;
-	//sf::Texture getTexture() const;
-	//sf::RectangleShape getRetangle();
-
+	int getPos(int i)const;
+	int getPosSize()const;
+	void setIngredientChoisi(int x, int y, int i);
+	sf::RectangleShape getIngredients2(int i)const;
+	sf::RectangleShape getIngredientsChoisis(int i)const;
+	sf::RectangleShape getIngredients(int i)const;
+	
 	void setPosX(int x);
 	void setPosY(int y);
 	void setWidth(int w);
 	void setHeight(int h);
-	//void setName(std::string newName);
-	//void setTexture(sf::Texture newTexture);
-	//void setRetangle(sf::RectangleShape newRetangle);
 
-	//void drawIngredient();
-
-	/*
 	void ingredients();
 	void drawIngredients();
-	int ingredientAleatoire();
-	*/
+	int indexAleatoire();
+	void ingredientsAleatoires();
+	void dispositionIngredient();
+
 };
