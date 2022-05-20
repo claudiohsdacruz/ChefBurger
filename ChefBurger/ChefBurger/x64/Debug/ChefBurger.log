@@ -1,5 +1,7 @@
-﻿  ChefBurger.cpp
+﻿  burger.cpp
+  ChefBurger.cpp
 C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ChefBurger.cpp(21,12): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
+  client.cpp
   game.cpp
 C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\game.cpp(106,26): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
 C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\game.cpp(106,20): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
@@ -35,5 +37,33 @@ C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\game.cpp(444,39
 C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\game.cpp(459,31): warning C4305: 'argument' : troncation de 'double' à 'float'
 C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\game.cpp(639,38): warning C4305: 'argument' : troncation de 'double' à 'float'
 C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\game.cpp(640,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  ingredient.cpp
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(23,38): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(23,31): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(24,44): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(24,36): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(41,38): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(41,31): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(42,44): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(42,36): warning C4244: 'argument' : conversion de 'int' en 'T', perte possible de données
+          with
+          [
+              T=float
+          ]
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(69,20): warning C4267: 'return' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(94,39): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\ChefBurger\ingredient.cpp(94,36): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
   Génération de code en cours...
   ChefBurger.vcxproj -> C:\Users\claud\Documents\GitHub\ChefBurger\ChefBurger\x64\Debug\ChefBurger.exe
