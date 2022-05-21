@@ -11,11 +11,13 @@ class Game
 {
 private:
 	int _score;
-	int _time;
+	double _time;
 	int _life;
 	bool _lose;
+	bool _restartTime;
 
 	sf::Text _text;
+	//sf::Text _Jouer;
 	std::string _nomJoueur;
 	std::string _ligneScore;
 	
@@ -53,7 +55,7 @@ public:
 
 	void initialiseWindow();
 	void initialiseJeu();
-	std::string demanderNomJoueur();
+	void demanderNomJoueur();
 	void play();				//la main loop du jeu
 	int numAleatoire(int min, int max);
 	Client randClient() const;
@@ -73,6 +75,7 @@ public:
 	void creerLigneScore(std::string mot);
 	void enregistrerLigneScore();
 	void ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2]);
+	void afficherInformation(sf::Text& texte, std::string texteAffichee, sf::Font font, std::ostringstream& ssTime, double valeurInitial, int posX, int posY, int size);
 	void afficherScores();
 	
 

@@ -10,8 +10,8 @@ private:
 	std::string _name;
 	sf::Texture _textureIngredients;
 	sf::RectangleShape _ingredients[5];//Pour les ingredients aléatoires
-	sf::RectangleShape _ingredients2[13];//Pour afficher les ingrédients sur lesquelles cliqués
-	sf::RectangleShape _ingredientsChoisi[13];//Pour afficher les ingrédients cliqués par le joueur
+	sf::RectangleShape _ingredients2[14];//Pour afficher les ingrédients sur lesquelles cliqués
+	sf::RectangleShape _ingredientsChoisi[14];//Pour afficher les ingrédients cliqués par le joueur
 	std::vector <sf::Texture> _vecteurIngredients;
 	std::vector <int> _pos;
 

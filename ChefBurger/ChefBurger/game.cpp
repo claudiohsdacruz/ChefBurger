@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <sstream>
 #include <vector>
 #include <conio.h>
 #include <SFML/Graphics.hpp>
@@ -16,9 +17,10 @@ using namespace std;
 Game::Game()
 {
 	_score = 0;
-	_time = 10000;
+	_time = 60;
 	_life = 3;
 	_lose = false;
+	_restartTime = true;
 	_nomJoueur = "NomInconnu";
 	_ligneScore = "";
 	_ingredient = Ingredient();
@@ -32,6 +34,7 @@ Game::~Game()
 	_time = 0;
 	_life = 0;
 	_lose = true;
+	_restartTime = false;
 	_nomJoueur = "";
 	_ingredient.~Ingredient();
 	//_demande = {};
@@ -45,7 +48,7 @@ int Game::getScore() const
 
 int Game::getTime() const
 {
-	return _time / 1000;
+	return _time;
 }
 
 int Game::getLife() const
@@ -75,7 +78,7 @@ void Game::setScore(int newScore)
 
 void Game::setTime(int newTime)
 {
-	_time = newTime * 1000;
+	_time = newTime;
 }
 
 void Game::setLife(int newLife)
@@ -128,15 +131,27 @@ void Game::initialiseWindow()
 	clickSound.setBuffer(buffer);
 
 	Clock clock;
+	Clock clockTime;
 	Time elapsed;
+	Time timeDuJeu;
 
 	RenderWindow window(VideoMode(1280, 800), "Chef Burger", Style::Close);
 	Event event;
+
+	sf::Font scoreFont;
+	sf::Text afficherScore;
+	int score = 0;
+	int size = 1;
+
+	Font timeFont;
+	Text afficherTime;
+	double time = 60;
 
 	RectangleShape fondEcran;
 	//RectangleShape demande;
 	Sprite client;
 	Sprite ingredientChoisi;
+	//std::ostringstream ssTime;
 
 	Texture textureClient;
 	Texture textureIngredient;
@@ -182,42 +197,91 @@ void Game::initialiseWindow()
 	backgroundMusic.play();
 
 	while (window.isOpen()) {
+
+		// Time
+		// Initialisation du time du jeu
+		timeDuJeu = clockTime.getElapsedTime();
+		_time = timeDuJeu.asSeconds();
+		time = 60 - trunc(_time);
+		
+		// Paramètres pour la affichage du time
+		std::ostringstream ssTime;
+		if (!affiche) {
+			ssTime << "Time : " << time;
+			afficherTime.setCharacterSize(30);
+			afficherTime.setPosition({ 20, 280 });
+			afficherTime.setFont(font);
+			afficherTime.setString(ssTime.str());
+		}
+		
+		// Affiche message de initialisation du jeu
 		if (affiche) {
 			setText(_text, "Touche <Espace> pour jouer", font, 350, 700, 42, Color::White);
 		}
+		
 		while (window.pollEvent(event)) {
 
 			if (event.type == Event::Closed)
 				window.close();
-
+			
+			// Initialise le temps pour le client faire le burguer
 			elapsed = clock.getElapsedTime();
 			elapsed.asSeconds();
-
+			
+			
 			if (event.type == Event::KeyPressed) {
+
+				// Paramètres de l'affichage du score
+				std::ostringstream ssScore;
+				ssScore << "Score : " << score;
+				afficherScore.setCharacterSize(30);
+				afficherScore.setPosition({ 20, 230 });
+				afficherScore.setFont(font);
+				afficherScore.setString(ssScore.str());
+				
+				// Initialise l'ecran du Jeu
 				if (event.key.code == Keyboard::Space) {
+
 					affiche = false;
+					// Efface le texte de la page principal
 					_text.setString("");
+
+					// Renitialise le temps du jeu
+					if (_restartTime) {
+						clockTime.restart();
+						_restartTime = false;
+					}
+
+					// Change le fond de l'Ecran
 					if (!texture.loadFromFile("ressources/Images/RestoInt.jpg"))
 					{
 						window.close();
 					}
+					fondEcran.setTexture(&texture);
+
+					// Change la musique
 					backgroundMusic.stop();
 					gameplayMusic.play();
-					fondEcran.setTexture(&texture);
+
 					initialiseJeu();
 
 					trouverClient();
 
+					// Paramètres du client
 					textureClient.loadFromFile(_textureClient1);
 					client.setTexture(textureClient);
 					client.setScale(0.40, 0.40);
 					client.setPosition(600, 178);
-					elapsed = clock.restart();
+					elapsed = clock.restart(); // reinialise le clock du client
 
+					// Recupérer tous les ingredients
 					_ingredient.drawIngredients();
+
+					// Recupérer la demande
 					_ingredient.ingredientsAleatoires();
 				}
 			}
+			//demanderNomJoueur();
 			/*
 			setText(_text, "Quel est votre nom ? ", font, 630, 400, 40, Color::Red);
 			if (event.type == sf::Event::TextEntered)
@@ -235,37 +299,24 @@ void Game::initialiseWindow()
 				cout << _nomJoueur << endl;
 			}
 			*/
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				clickSound.play();
-				if (event.mouseButton.button == sf::Mouse::Left)
-				{
-					std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					std::cout << "mouse y: " << event.mouseButton.y << std::endl;
-					
-				}
-
-			}
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
+				clickSound.play();// Sound du click
+
+				// Permet de choisir le ingredient pour monter le burger
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
-
+					// Premier pain
 					if (event.mouseButton.x > 109 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
-					{
-						//premier pain
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 0);
-						//_burger.push_back(ingredientChoisi);
-						
+					{	
 						_pos.push_back(0);
 						_ingredient.setIngredientChoisi(x, y, 0);
 						toucher = true;
 					}
-
+					// Avocat
 					if (event.mouseButton.x > 270 && event.mouseButton.x < 340 && event.mouseButton.y > 522 && event.mouseButton.y < 561)
 					{
-						//Avocat
 						_pos.push_back(1);
 						if (toucher)
 						{
@@ -273,13 +324,10 @@ void Game::initialiseWindow()
 						}
 						_ingredient.setIngredientChoisi(x, y, 1);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 1);
-						//_burger.push_back(ingredientChoisi);
 					}
-
+					//Bacon
 					if (event.mouseButton.x > 430 && event.mouseButton.x < 495 && event.mouseButton.y > 530 && event.mouseButton.y < 558)
 					{
-						//Bacon
 						_pos.push_back(2);
 						if (toucher)
 						{
@@ -287,200 +335,153 @@ void Game::initialiseWindow()
 						}
 						_ingredient.setIngredientChoisi(x, y, 2);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 2);
-						//_burger.push_back(ingredientChoisi);
 					}
-
+					// Boeuf
 					if (event.mouseButton.x > 614 && event.mouseButton.x < 668 && event.mouseButton.y > 525 && event.mouseButton.y < 556)
 					{
-						//boeuf
 						_pos.push_back(3);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 3);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 3);
-						//_burger.push_back(ingredientChoisi);
 					}
-
+					// Cornichon
 					if (event.mouseButton.x > 750 && event.mouseButton.x < 850 && event.mouseButton.y > 520 && event.mouseButton.y < 570)
 					{
-						//cornichon
 						_pos.push_back(4);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 4);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 4);
-						//_burger.push_back(ingredientChoisi);
 					}
-
+					// Salade
 					if (event.mouseButton.x > 900 && event.mouseButton.x < 1020 && event.mouseButton.y > 520 && event.mouseButton.y < 570)
 					{
-						//Salade
 						_pos.push_back(5);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 5);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 5);
-						//_burger.push_back(ingredientChoisi);
-					
 					}
-
-					if (event.mouseButton.x > 1070 && event.mouseButton.x < 1175 && event.mouseButton.y > 527 && event.mouseButton.y < 660)
+					// Oeuf
+					if (event.mouseButton.x > 1070 && event.mouseButton.x < 1175 && event.mouseButton.y > 527 && event.mouseButton.y < 570)
 					{
-						//Oeuf
 						_pos.push_back(6);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 6);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 6);
-						//window.draw(ingredientChoisi);
-						
 					}
-
+					// Oignon
 					if (event.mouseButton.x > 112 && event.mouseButton.x < 176 && event.mouseButton.y > 620 && event.mouseButton.y < 666)
-					{
-						//Oignon
+					{	
 						_pos.push_back(7);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 7);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 7);
-						//_burger.push_back(ingredientChoisi);
-	
 					}
-
+					// Poivron
 					if (event.mouseButton.x > 269 && event.mouseButton.x < 341 && event.mouseButton.y > 621 && event.mouseButton.y < 663)
-					{
-						//Poivron
+					{						
 						_pos.push_back(8);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 8);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 8);
-						//_burger.push_back(ingredientChoisi);
-					
 					}
-
+					// Tomate
 					if (event.mouseButton.x > 430 && event.mouseButton.x < 530 && event.mouseButton.y > 621 && event.mouseButton.y < 660)
 					{
-						//tomate
 						_pos.push_back(9);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 9);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 9);
-						//_burger.push_back(ingredientChoisi);
-					
 					}
-
+					// Jambon
 					if (event.mouseButton.x > 590 && event.mouseButton.x < 690 && event.mouseButton.y > 627 && event.mouseButton.y < 662)
 					{
-						//Jambon
 						_pos.push_back(10);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 10);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 10);
-						//_burger.push_back(ingredientChoisi);
 					}
-
+					//Fromage
 					if (event.mouseButton.x > 740 && event.mouseButton.x < 860 && event.mouseButton.y > 623 && event.mouseButton.y < 651)
 					{
-						//Fromage
 						_pos.push_back(11);
-
 						if (toucher)
 						{
 							y -= 15;
 						}
 						_ingredient.setIngredientChoisi(x, y, 11);
 						toucher = true;
-						//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 11);
-						//_burger.push_back(ingredientChoisi);
 					}
-
-					if (event.mouseButton.x > 905 && event.mouseButton.x < 1045 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
+					// Deuxième pain
+					if (event.mouseButton.x > 905 && event.mouseButton.x < 1005 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
 					{
-						//pas affichable, position déjà occupée
-						//deuxième pain
 						_pos.push_back(12);
-
 						if (toucher)
 						{
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 12);
 						toucher = true;
-						afficherIngredientChoisi(textureIngredient, ingredientChoisi, 12);
-						_burger.push_back(ingredientChoisi);
 					}
-					
+					// Effacer
+					if (event.mouseButton.x > 1045 && event.mouseButton.x < 1145 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
+					{
+						size = _pos.size() - 1;
+						
+					}
 				}
 			}
-
+			// Affichage du client colérique après 10 secondes
 			if (elapsed.asSeconds() >= 10)
 			{
-				cout << "allo" << endl;
 				textureClient.loadFromFile(_textureClient2);
 				client.setTexture(textureClient);
 				client.setPosition(600, 178);
 				client.setScale(0.40, 0.40);
 				elapsed = clock.restart();
-
 			}
 		}
+
 		window.clear();
 		window.draw(fondEcran);
-		//window.draw(ingredientChoisi);
+		window.draw(afficherScore);
+		window.draw(afficherTime);
 		window.draw(client);
-		/*
-		for (Sprite item : _burger) {
-			window.draw(item);
-		}*/
+		window.draw(_text);
+		// Affichage de les ingredients da demande du client
 		for (int i = 0; i < 5; i++){
 			window.draw(_ingredient.getIngredients(i));
 		}
-
-		window.draw(_text);
-
-		for (int i = 0; i < 13; i++)
+		// Affichage de la liste complet des ingredients
+		for (int i = 0; i < 14; i++)
 		{
 			window.draw(_ingredient.getIngredients2(i));
 		}
-		
-		for (int i = 0; i < _pos.size(); i++)
+		// Affichage de les ingredients choisi pour faire le burger
+		for (int i = 0; i < _pos.size() ; i++)
 		{
 			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
 		}
@@ -491,20 +492,18 @@ void Game::initialiseWindow()
 void Game::initialiseJeu()
 {
 	_lose = false;
+	_restartTime = true;
 	_score = 0;
-	_time = 0;
+	_time = 60;
 	remplirClients();
 	remplirIngredients();
 }
 
-std::string Game::demanderNomJoueur()
+void Game::demanderNomJoueur()
 {
-
-	string joueur;
 	cout << "Quel est le nom du joueur ? " << endl;
-	cin >> joueur;
-
-	return joueur;
+	getline(cin,_nomJoueur);
+	cout << _nomJoueur;
 }
 
 void Game::play()
@@ -514,6 +513,10 @@ void Game::play()
 	//
 
 	this->printEndGame(cout); //Affiche la message de fin du jeu
+	if (_lose) {
+		creerLigneScore(_nomJoueur);
+		creerLigneScore(to_string(_score));
+	}
 }
 
 
@@ -615,6 +618,7 @@ void Game::remplirIngredients()
 	}
 }
 
+// Faire le choix Aleatoire du client
 void Game::trouverClient()
 {
 	int index = numAleatoire(0, 3);
@@ -624,6 +628,7 @@ void Game::trouverClient()
 	cout << index + 1 << " - " << _textureClient2 << endl;
 }
 
+// Faire le choix Aleatoire du Ingredient
 void Game::trouverIngredient()
 {
 	int index = numAleatoire(2, 13);
@@ -667,7 +672,7 @@ void Game::ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores
 	while (!monFlux.eof()) {
 		monFlux >> jouer >> score;
 		scores[0].push_back(score);
-		scores[1].push_back(jouer);
+		scores[1].push_back(_nomJoueur);
 	}
 	for (int i = 0; i < 2; i++)
 	{
@@ -701,4 +706,7 @@ void Game::afficherScores()
 	system("pause");
 	monFlux.close();
 }
+
+//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 12);
+//_burger.push_back(ingredientChoisi);
 

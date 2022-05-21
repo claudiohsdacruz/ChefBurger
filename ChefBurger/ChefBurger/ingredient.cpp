@@ -122,13 +122,14 @@ void Ingredient::ingredients()
 	_vecteurIngredients.push_back(_textureIngredients);
 	_textureIngredients.loadFromFile("ressources/Ingredients/1Bun.png");
 	_vecteurIngredients.push_back(_textureIngredients);
-
+	_textureIngredients.loadFromFile("ressources/Ingredients/Effacer.png");
+	_vecteurIngredients.push_back(_textureIngredients);
 }
 
 void Ingredient::drawIngredients()
 {
 	ingredients();
-	for (int i = 0; i < 13; i++)
+	for (int i = 0; i < 14; i++)
 	{
 		_ingredientsChoisi[i].setSize(Vector2f(120, 90));
 		_ingredientsChoisi[i].setTexture(&_vecteurIngredients.at(i));
@@ -183,13 +184,13 @@ void Ingredient::dispositionIngredient()
 {
 	float j = 100;
 	float k = 100;
-	for (int i = 0; i < 13; i++)
+	for (int i = 0; i < 14; i++)
 	{
 		_ingredients2[i].setSize(Vector2f(120, 90));
 		_ingredients2[i].setTexture(&_vecteurIngredients.at(i));
 	}
 
-	for (int i = 0; i < 13; i++)
+	for (int i = 0; i < 14; i++)
 	{
 		_ingredients2[i].setPosition(j, 500);
 		if (i >= 7)
