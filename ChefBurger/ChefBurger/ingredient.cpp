@@ -143,7 +143,7 @@ void Ingredient::drawIngredients()
 	dispositionIngredient();
 }
 
-void Ingredient::ingredientsAleatoires(int index, int index1, int index2)
+void Ingredient::ingredientsAleatoires(int& index, int& index1, int& index2)
 {
 	/*int index = 0;
 	int index1 = 0;
@@ -207,4 +207,9 @@ void Ingredient::dispositionIngredient()
 		j += 160;
 	}
 
+}
+
+void Ingredient::setSizeIngredientChoisi(int i, int x, int y)
+{
+	_ingredientsChoisi[i].setSize(Vector2f(x, y));
 }

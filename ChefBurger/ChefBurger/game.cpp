@@ -124,7 +124,7 @@ void Game::setIngredientChoisi(int x, int y, int i)
 void Game::initialiseWindow()
 {
 	// Creation de variables du jeu
-	
+
 	// Variables de initialisation e controle du som
 	sf::Music backgroundMusic;
 	sf::Music gameplayMusic;
@@ -146,7 +146,9 @@ void Game::initialiseWindow()
 	// Variable de temps
 	Clock clock;
 	Clock clockTime;
+	Clock clockEchange;
 	Time elapsed;
+	Time echange;
 	Time timeDuJeu;
 
 	// Variables apliquées sur la fenêtre
@@ -199,6 +201,7 @@ void Game::initialiseWindow()
 	int index = 0;
 	int index1 = 0;
 	int index2 = 0;
+	bool burgerComplet = false;
 
 	while (window.isOpen()) {
 
@@ -206,7 +209,9 @@ void Game::initialiseWindow()
 		// Initialisation du time du jeu
 		timeDuJeu = clockTime.getElapsedTime();
 		_time = timeDuJeu.asSeconds();
-		time = 10 - trunc(_time);
+		time = 60 - trunc(_time);
+
+		echange = clockEchange.getElapsedTime();
 
 		// Paramètres pour la affichage du time
 		std::ostringstream ssTime;
@@ -217,11 +222,21 @@ void Game::initialiseWindow()
 			else {
 				ssTime << "Time : " << time;
 			}
-			
+
 			afficherTime.setCharacterSize(30);
 			afficherTime.setPosition({ 20, 280 });
 			afficherTime.setFont(font);
 			afficherTime.setString(ssTime.str());
+		}
+
+		// Paramètres de l'affichage du score
+		if (!affiche) {
+			std::ostringstream ssScore;
+			ssScore << "Score : " << score;
+			afficherScore.setCharacterSize(30);
+			afficherScore.setPosition({ 20, 230 });
+			afficherScore.setFont(font);
+			afficherScore.setString(ssScore.str());
 		}
 		// Affiche message de initialisation du jeu
 		if (affiche) {
@@ -243,22 +258,14 @@ void Game::initialiseWindow()
 				if (event.key.code == Keyboard::Escape) {
 					window.close();
 				}
-				// Paramètres de l'affichage du score
-				std::ostringstream ssScore;
-				ssScore << "Score : " << score;
-				afficherScore.setCharacterSize(30);
-				afficherScore.setPosition({ 20, 230 });
-				afficherScore.setFont(font);
-				afficherScore.setString(ssScore.str());
 
 				// Initialise l'ecran du Jeu
 				if (event.key.code == Keyboard::Space) {
-
+					score = 0;
 					system("cls");
 					_text.setString("");
 					affiche = false;
-					// Efface le texte 
-					
+
 
 					// Renitialise le temps du jeu
 					if (_restartTime) {
@@ -293,6 +300,13 @@ void Game::initialiseWindow()
 
 					// Recupérer la demande
 					_ingredient.ingredientsAleatoires(index, index1, index2);
+					// Efface le burger passée
+
+					for (int i = 0; i < 13; i++)
+					{
+						_ingredient.setSizeIngredientChoisi(i, 0, 0);
+					}
+
 				}
 			}
 
@@ -300,7 +314,7 @@ void Game::initialiseWindow()
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				clickSound.play();// Sound du click
-
+				_text.setString("");
 				// Permet de choisir le ingredient pour monter le burger
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
@@ -308,7 +322,12 @@ void Game::initialiseWindow()
 					if (event.mouseButton.x > 109 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
 					{
 						_pos.push_back(0);
+						x = 450;
+						y = 400;
+
 						_ingredient.setIngredientChoisi(x, y, 0);
+						_ingredient.setSizeIngredientChoisi(0, 120, 90);
+
 						toucher = true;
 					}
 					// Avocat
@@ -320,6 +339,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 1);
+						_ingredient.setSizeIngredientChoisi(1, 120, 90);
 						toucher = true;
 					}
 					//Bacon
@@ -331,6 +351,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 2);
+						_ingredient.setSizeIngredientChoisi(2, 120, 90);
 						toucher = true;
 					}
 					// Boeuf
@@ -342,6 +363,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 3);
+						_ingredient.setSizeIngredientChoisi(3, 120, 90);
 						toucher = true;
 					}
 					// Cornichon
@@ -353,6 +375,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 4);
+						_ingredient.setSizeIngredientChoisi(4, 120, 90);
 						toucher = true;
 					}
 					// Salade
@@ -364,6 +387,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 5);
+						_ingredient.setSizeIngredientChoisi(5, 120, 90);
 						toucher = true;
 					}
 					// Oeuf
@@ -375,6 +399,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 6);
+						_ingredient.setSizeIngredientChoisi(6, 120, 90);
 						toucher = true;
 					}
 					// Oignon
@@ -386,6 +411,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 7);
+						_ingredient.setSizeIngredientChoisi(7, 120, 90);
 						toucher = true;
 					}
 					// Poivron
@@ -397,6 +423,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 8);
+						_ingredient.setSizeIngredientChoisi(8, 120, 90);
 						toucher = true;
 					}
 					// Tomate
@@ -408,6 +435,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 9);
+						_ingredient.setSizeIngredientChoisi(9, 120, 90);
 						toucher = true;
 					}
 					// Jambon
@@ -419,6 +447,7 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 10);
+						_ingredient.setSizeIngredientChoisi(10, 120, 90);
 						toucher = true;
 					}
 					//Fromage
@@ -430,6 +459,7 @@ void Game::initialiseWindow()
 							y -= 15;
 						}
 						_ingredient.setIngredientChoisi(x, y, 11);
+						_ingredient.setSizeIngredientChoisi(11, 120, 90);
 						toucher = true;
 					}
 					// Deuxième pain
@@ -441,28 +471,49 @@ void Game::initialiseWindow()
 							y -= 20;
 						}
 						_ingredient.setIngredientChoisi(x, y, 12);
+						_ingredient.setSizeIngredientChoisi(12, 120, 90);
 						toucher = true;
 					}
+					burgerComplet = validerDemande(_pos, index, index1, index2);
 					// Delivrer
 					if (event.mouseButton.x > 1045 && event.mouseButton.x < 1145 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
 					{
-						trouverClient();
-						// Paramètres du client
-						textureClient.loadFromFile(_textureClient1);
-						client.setTexture(textureClient);
-						client.setScale(0.40, 0.40);
-						client.setPosition(600, 178);
+						if (burgerComplet)
+						{
+							trouverClient();
+							// Paramètres du client
+							textureClient.loadFromFile(_textureClient1);
+							client.setTexture(textureClient);
+							client.setScale(0.40, 0.40);
+							client.setPosition(600, 178);
 
-						// Recupérer la demande
-						_ingredient.ingredientsAleatoires(index, index1, index2);
-						cout << validerDemande(_pos) << endl;
+							// Recupérer la demande
+							_ingredient.ingredientsAleatoires(index, index1, index2);
+							cout << validerDemande(_pos, index, index1, index2) << endl;
 
-						float x = 450;
-						float y = 400;
+							for (int i = 0; i < 13; i++)
+							{
+								_ingredient.setSizeIngredientChoisi(i, 0, 0);
+							}
+
+							// Ajouter le pointage sur le score
+							score += 10;
+							elapsed = clock.restart();
+							echange = clockEchange.restart();
+						}
+						else if (!burgerComplet)
+						{
+							for (int i = 0; i < 13; i++)
+							{
+								_ingredient.setSizeIngredientChoisi(i, 0, 0);
+							}
+							setText(finDeJeu, "FAUX", font, 550, 350, 42, Color::Red);							
+						}
 					}
 				}
 			}
 			// Affichage du client colérique après 10 secondes
+			
 			if (elapsed.asSeconds() >= 10)
 			{
 				textureClient.loadFromFile(_textureClient2);
@@ -471,8 +522,29 @@ void Game::initialiseWindow()
 				client.setScale(0.40, 0.40);
 				elapsed = clock.restart();
 			}
+			if (echange.asSeconds() > 15) {
+				trouverClient();
+				cout << "Echange : " << echange.asSeconds() << endl;
+				echange = clockEchange.restart();
+				
+				// Paramètres du client
+				textureClient.loadFromFile(_textureClient1);
+				client.setTexture(textureClient);
+				client.setScale(0.40, 0.40);
+				client.setPosition(600, 178);
+
+				// Recupérer la demande
+				_ingredient.ingredientsAleatoires(index, index1, index2);
+				cout << validerDemande(_pos, index, index1, index2) << endl;
+
+				for (int i = 0; i < 13; i++)
+				{
+					_ingredient.setSizeIngredientChoisi(i, 0, 0);
+				}
+				
+			}
 		}
-		
+
 		window.clear();
 		window.draw(fondEcran);
 		window.draw(afficherScore);
@@ -493,12 +565,12 @@ void Game::initialiseWindow()
 		{
 			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
 		}
-		
+
 		if (time < 0) {
 			cout << time << endl;
 			setText(finDeJeu, "GAME OVER", font, 550, 350, 42, Color::Red);
 			if (time < -2) {
-				setText(_text, "Touche <Espace> pour rejouer ou <Esc> pour sortir", font, 150, 400, 42, Color::Red);
+				setText(_text, "Touche <Espace> pour rejouer ou <Esc> pour sortir", font, 150, 700, 42, Color::Red);
 				elapsed = clock.restart();
 			}
 			endGame();
@@ -525,12 +597,8 @@ void Game::demanderNomJoueur()
 	cout << _nomJoueur << " Bonne chance pour le jeu " << endl;
 }
 
-bool Game::validerDemande(vector <int> _pos)
+bool Game::validerDemande(vector <int> _pos, int& index, int& index1, int& index2)
 {
-	int index = 0;
-	int index1 = 0;
-	int index2 = 0;
-
 	bool ingredientPresent1 = false;
 	bool ingredientPresent2 = false;
 	bool ingredientPresent3 = false;
@@ -590,6 +658,7 @@ void Game::play()
 	initialiseWindow();
 
 	this->printEndGame(cout); //Affiche la message de fin du jeu
+
 	if (_lose) {
 		creerLigneScore(_nomJoueur);
 		creerLigneScore(to_string(_score));
@@ -615,11 +684,11 @@ void Game::endGame()
 /*
 void Game::printScore(std::ostream& sortie) const
 {
-	
+
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 	gotoxy(0, 21);
 	sortie << "Score : " << _score;
-	
+
 }
 */
 /*

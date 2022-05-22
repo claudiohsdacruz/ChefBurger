@@ -7,7 +7,6 @@
 ************************************************************************************/
 
 #pragma once
-
 class Ingredient
 {
 private:
@@ -47,8 +46,9 @@ public:
 	void ingredients();
 	void drawIngredients();
 	int indexAleatoire();
-	void ingredientsAleatoires(int index, int index1, int index2);
+	void ingredientsAleatoires(int& index, int& index1, int& index2);
 	void dispositionIngredient();
+	void setSizeIngredientChoisi(int i, int x, int y);
 
 };
 

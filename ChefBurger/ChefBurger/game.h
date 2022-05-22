@@ -54,7 +54,7 @@ public:
 	void initialiseWindow();
 	void initialiseJeu();
 	void demanderNomJoueur();
-	bool validerDemande(std::vector <int> _pos);
+	bool validerDemande(std::vector <int> _pos, int& index, int& index1, int& index2);
 	void play();				//la main loop du jeu
 	int numAleatoire(int min, int max);
 	Client randClient() const;
