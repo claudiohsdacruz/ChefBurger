@@ -1,12 +1,16 @@
-// ChefBurger.cpp : Ce fichier contient la fonction 'main'. L'exécution du programme commence et se termine à cet endroit.
-//
+/************************************************************************************
+* Auteur	: Claudio Cruz, Sarah Diakite, Paule Axelle  et Ramin Amiri				*
+* Nom		: ChefBurger.cpp														*
+* Date		: 22 mai 2022															*
+* Description : Ce fichier contient la fonction 'main'. L'exécution du programme	*
+* commence et se termine à cet endroit.												*
+************************************************************************************/
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include<vector>
 
 #include "client.h"
-//#include "burger.h"
 #include "ingredient.h"
 #include "game.h"
 

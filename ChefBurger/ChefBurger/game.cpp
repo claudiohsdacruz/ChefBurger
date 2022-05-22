@@ -1,4 +1,11 @@
-﻿#include <iostream>
+﻿/************************************************************************************
+* Auteur	: Claudio Cruz, Sarah Diakite, Paule Axelle  et Ramin Amiri				*
+* Nom		: game.cpp																*
+* Date		: 22 mai 2022															*
+* Description : La classe Game implémente le jeu ChefBurger en console. 			*
+************************************************************************************/
+
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -7,7 +14,6 @@
 #include <SFML/Audio.hpp>
 
 #include "client.h"
-#include "burger.h"
 #include "ingredient.h"
 #include "game.h"
 
@@ -117,58 +123,68 @@ void Game::setIngredientChoisi(int x, int y, int i)
 
 void Game::initialiseWindow()
 {
-	sf::Font font;
-	//sf::Text text;
-	bool affiche = true;
-
+	// Creation de variables du jeu
+	
+	// Variables de initialisation e controle du som
 	sf::Music backgroundMusic;
 	sf::Music gameplayMusic;
-
 	sf::SoundBuffer buffer;
 	buffer.loadFromFile("ressources/Audios/Click.ogg");
-
 	sf::Sound clickSound;
 	clickSound.setBuffer(buffer);
+	if (!gameplayMusic.openFromFile("ressources/Audios/gameMusic.ogg"))
+	{
+		cout << "Erreur";
+	}
+	if (!backgroundMusic.openFromFile("ressources/Audios/MenuMusic.ogg"))
+	{
+		cout << "Erreur";
+	}
+	backgroundMusic.setVolume(50);
+	backgroundMusic.play();
 
+	// Variable de temps
 	Clock clock;
 	Clock clockTime;
 	Time elapsed;
 	Time timeDuJeu;
 
+	// Variables apliquées sur la fenêtre
 	RenderWindow window(VideoMode(1280, 800), "Chef Burger", Style::Close);
-	Event event;
+	RectangleShape fondEcran;
+	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
+	fondEcran.setSize(Vector2f(1280, 800));
+	IntRect rectFond(0, 0, 1208, 800);
 
+	// Variables d'affichage de texte
+	sf::Font font;
+	bool affiche = true;
+	if (!font.loadFromFile("ressources/Polices/LuckiestGuy.ttf"))
+	{
+		window.close();
+	}
+	_text.setFont(font);
+
+	// Variables d'affichage du Score
 	sf::Font scoreFont;
 	sf::Text afficherScore;
 	int score = 0;
 	int size = 1;
 
+	// Variables d'affichage du Temps
 	Font timeFont;
 	Text afficherTime;
-	double time = 60;
+	double time = 10;
 
-	RectangleShape fondEcran;
-	//RectangleShape demande;
-	Sprite client;
-	Sprite ingredientChoisi;
-	//std::ostringstream ssTime;
-
-	Texture textureClient;
-	Texture textureIngredient;
-
-	char lettre = 20;
-
+	// Variables de controle du clicage sur les ingredients
 	vector <int> _pos;
 	int i = 0;
 	bool toucher = false;
 	float x = 450;
 	float y = 400;
 
-	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
-	fondEcran.setSize(Vector2f(1280, 800));
-	IntRect rectFond(0, 0, 1208, 800);
-
-
+	// Textures apliquées
+	Texture textureClient;
 	Texture texture;
 	if (!texture.loadFromFile("ressources/Images/Menu.jpg"))
 	{
@@ -176,39 +192,32 @@ void Game::initialiseWindow()
 	}
 	fondEcran.setTexture(&texture);
 
-	if (!font.loadFromFile("ressources/Polices/LuckiestGuy.ttf"))
-	{
-		window.close();
-	}
-	_text.setFont(font);
-
-	if (!backgroundMusic.openFromFile("ressources/Audios/MenuMusic.ogg"))
-	{
-		cout << "Erreur";
-	}
-
-	if (!gameplayMusic.openFromFile("ressources/Audios/gameMusic.ogg"))
-	{
-		cout << "Erreur";
-	}
-
-
-	backgroundMusic.setVolume(50);
-	backgroundMusic.play();
+	// D'autres variables
+	Event event;
+	Sprite client;
+	Text finDeJeu;
+	int index = 0;
+	int index1 = 0;
+	int index2 = 0;
 
 	while (window.isOpen()) {
-
 
 		// Time
 		// Initialisation du time du jeu
 		timeDuJeu = clockTime.getElapsedTime();
 		_time = timeDuJeu.asSeconds();
-		time = 60 - trunc(_time);
+		time = 10 - trunc(_time);
 
 		// Paramètres pour la affichage du time
 		std::ostringstream ssTime;
 		if (!affiche) {
-			ssTime << "Time : " << time;
+			if (time <= 0) {
+				ssTime << "Time : " << "0";
+			}
+			else {
+				ssTime << "Time : " << time;
+			}
+			
 			afficherTime.setCharacterSize(30);
 			afficherTime.setPosition({ 20, 280 });
 			afficherTime.setFont(font);
@@ -217,17 +226,12 @@ void Game::initialiseWindow()
 		// Affiche message de initialisation du jeu
 		if (affiche) {
 			setText(_text, "Touche <Espace> pour jouer", font, 350, 700, 42, Color::White);
-
 		}
 
-
-
 		while (window.pollEvent(event)) {
-
-
+			// Fermeture de la fenêtre
 			if (event.type == Event::Closed)
 				window.close();
-
 
 			// Initialise le temps pour le client faire le burguer
 			elapsed = clock.getElapsedTime();
@@ -235,9 +239,10 @@ void Game::initialiseWindow()
 
 
 			if (event.type == Event::KeyPressed) {
-
-
-
+				// Fin du jeu
+				if (event.key.code == Keyboard::Escape) {
+					window.close();
+				}
 				// Paramètres de l'affichage du score
 				std::ostringstream ssScore;
 				ssScore << "Score : " << score;
@@ -249,12 +254,11 @@ void Game::initialiseWindow()
 				// Initialise l'ecran du Jeu
 				if (event.key.code == Keyboard::Space) {
 
-					//system("cls");
-
-
-					affiche = false;
-					// Efface le texte de la page principal
+					system("cls");
 					_text.setString("");
+					affiche = false;
+					// Efface le texte 
+					
 
 					// Renitialise le temps du jeu
 					if (_restartTime) {
@@ -288,10 +292,8 @@ void Game::initialiseWindow()
 					_ingredient.drawIngredients();
 
 					// Recupérer la demande
-					_ingredient.ingredientsAleatoires();
+					_ingredient.ingredientsAleatoires(index, index1, index2);
 				}
-
-
 			}
 
 
@@ -441,11 +443,22 @@ void Game::initialiseWindow()
 						_ingredient.setIngredientChoisi(x, y, 12);
 						toucher = true;
 					}
-					// Effacer
+					// Delivrer
 					if (event.mouseButton.x > 1045 && event.mouseButton.x < 1145 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
 					{
-						size = _pos.size() - 1;
+						trouverClient();
+						// Paramètres du client
+						textureClient.loadFromFile(_textureClient1);
+						client.setTexture(textureClient);
+						client.setScale(0.40, 0.40);
+						client.setPosition(600, 178);
 
+						// Recupérer la demande
+						_ingredient.ingredientsAleatoires(index, index1, index2);
+						cout << validerDemande(_pos) << endl;
+
+						float x = 450;
+						float y = 400;
 					}
 				}
 			}
@@ -459,7 +472,7 @@ void Game::initialiseWindow()
 				elapsed = clock.restart();
 			}
 		}
-
+		
 		window.clear();
 		window.draw(fondEcran);
 		window.draw(afficherScore);
@@ -480,10 +493,21 @@ void Game::initialiseWindow()
 		{
 			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
 		}
+		
+		if (time < 0) {
+			cout << time << endl;
+			setText(finDeJeu, "GAME OVER", font, 550, 350, 42, Color::Red);
+			if (time < -2) {
+				setText(_text, "Touche <Espace> pour rejouer ou <Esc> pour sortir", font, 150, 400, 42, Color::Red);
+				elapsed = clock.restart();
+			}
+			endGame();
+		}
 		window.display();
 	}
 }
 
+// Initialise les paramêtres du jeu
 void Game::initialiseJeu()
 {
 	_lose = false;
@@ -499,6 +523,64 @@ void Game::demanderNomJoueur()
 	cout << " Joueur! Entrez votre nom pour débuter : ";
 	getline(cin, _nomJoueur);
 	cout << _nomJoueur << " Bonne chance pour le jeu " << endl;
+}
+
+bool Game::validerDemande(vector <int> _pos)
+{
+	int index = 0;
+	int index1 = 0;
+	int index2 = 0;
+
+	bool ingredientPresent1 = false;
+	bool ingredientPresent2 = false;
+	bool ingredientPresent3 = false;
+	bool ingredientPresent4 = false;
+	bool ingredientPresent5 = false;
+	bool burgerComplet = false;
+
+	for (int i = 0; i < _pos.size(); i++)
+	{
+		if (_pos.at(i) == 0)
+		{
+			ingredientPresent1 = true;
+		}
+		else if (_pos.at(i) == 12)
+		{
+			ingredientPresent2 = true;
+		}
+		else if (_pos.at(i) == index)
+		{
+			ingredientPresent3 = true;
+		}
+		else if (_pos.at(i) == index1)
+		{
+			ingredientPresent4 = true;
+		}
+		else if (_pos.at(i) == index2)
+		{
+			ingredientPresent5 = true;
+		}
+	}
+	if (ingredientPresent1 && ingredientPresent2 && ingredientPresent3 && ingredientPresent4 && ingredientPresent5)
+	{
+		burgerComplet = true;
+		cout << "sarar" << endl; //verificaion du true
+	}
+	cout << ingredientPresent1 << " - " << ingredientPresent2 << " - " << ingredientPresent3 << " - " << ingredientPresent4 << " - " << ingredientPresent5 << " - " << endl;
+
+	/*
+	if (burgerComplet)
+	{
+		trouverClient();
+		textureClient.loadFromFile(_textureClient1);
+		client.setTexture(textureClient);
+		client.setScale(0.40, 0.40);
+		client.setPosition(600, 178);
+		_ingredient.ingredientsAleatoires(index, index1, index2);
+		//_ingredient.~Ingredient(); marche pas
+
+	}*/
+	return burgerComplet;
 }
 
 void Game::play()
@@ -528,29 +610,26 @@ Client Game::randClient() const
 void Game::endGame()
 {
 	_lose = true;
+	printEndGame(cout);
 }
-
+/*
 void Game::printScore(std::ostream& sortie) const
 {
-	/*
+	
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
 	gotoxy(0, 21);
 	sortie << "Score : " << _score;
-	*/
+	
 }
-
-
+*/
+/*
 void Game::printTime(std::ostream& sortie) const
 {
 }
-
+*/
 void Game::printEndGame(std::ostream& sortie) const
 {
-	/*
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-	gotoxy(0, 23);
-	sortie << "GAME OVER!";
-	*/
+	sortie << "GAME OVER!" << endl;
 }
 
 void Game::remplirClients()

@@ -1,3 +1,10 @@
+/************************************************************************************
+* Auteur	: Claudio Cruz, Sarah Diakite, Paule Axelle  et Ramin Amiri				*
+* Nom		: ingredient.cpp														*
+* Date		: 22 mai 2022															*
+* Description : La classe Ingredient est responsable pour créer l´élement			*
+*				ingredient du jeu. 													*
+************************************************************************************/
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
@@ -34,7 +41,6 @@ Ingredient::~Ingredient()
 	_posY = 0;
 	_width = 0;
 	_height = 0;
-	_textureIngredients.loadFromFile("ressources/Ingredients/Blanc.png");
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -137,12 +143,12 @@ void Ingredient::drawIngredients()
 	dispositionIngredient();
 }
 
-void Ingredient::ingredientsAleatoires()
+void Ingredient::ingredientsAleatoires(int index, int index1, int index2)
 {
-	int index = 0;
+	/*int index = 0;
 	int index1 = 0;
 	int index2 = 0;
-
+	*/
 	do
 	{
 		index = indexAleatoire();
@@ -169,7 +175,6 @@ void Ingredient::ingredientsAleatoires()
 	_ingredients[3].setTexture(&_vecteurIngredients.at(index2));
 	_ingredients[3].setPosition(1000, 345);
 	_ingredients[3].setSize(Vector2f(120, 90));
-
 }
 
 

@@ -142,14 +142,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="burger.cpp" />
     <ClCompile Include="ChefBurger.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="ingredient.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="burger.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="ingredient.h" />

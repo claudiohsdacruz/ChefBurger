@@ -1,3 +1,11 @@
+/************************************************************************************
+* Auteur	: Claudio Cruz, Sarah Diakite, Paule Axelle  et Ramin Amiri				*
+* Nom		: ingredient.h															*
+* Date		: 22 mai 2022															*
+* Description : La classe Ingredient est responsable pour créer l´élement			*
+*				ingredient du jeu. 													*
+************************************************************************************/
+
 #pragma once
 
 class Ingredient
@@ -39,7 +47,7 @@ public:
 	void ingredients();
 	void drawIngredients();
 	int indexAleatoire();
-	void ingredientsAleatoires();
+	void ingredientsAleatoires(int index, int index1, int index2);
 	void dispositionIngredient();
 
 };

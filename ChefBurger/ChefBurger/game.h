@@ -1,8 +1,8 @@
 /************************************************************************************
 * Auteur	: Claudio Cruz, Sarah Diakite, Paule Axelle  et Ramin Amiri				*
 * Nom		: game.h																*
-* Date		: 20 mai 2022															*
-* Description : La classe Game implémente Le jeu ChefBurger en console. 			*
+* Date		: 22 mai 2022															*
+* Description : La classe Game implémente le jeu ChefBurger en console. 			*
 ************************************************************************************/
 
 #pragma once
@@ -24,13 +24,11 @@ private:
 	Client _client;
 	Ingredient _ingredient;
 	
-
 	std::string _textureClient1;
 	std::string _textureClient2;
 	std::string _textureIngredient;
 	std::vector<std::string> _clients;
 	std::vector<std::string> _ingredients;
-	std::vector<sf::Sprite> _burger;
 
 public:
 	Game();
@@ -56,13 +54,14 @@ public:
 	void initialiseWindow();
 	void initialiseJeu();
 	void demanderNomJoueur();
+	bool validerDemande(std::vector <int> _pos);
 	void play();				//la main loop du jeu
 	int numAleatoire(int min, int max);
 	Client randClient() const;
 
 	void endGame();
-	void printScore(std::ostream& sortie) const;	//affiche le score
-	void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
+	//void printScore(std::ostream& sortie) const;	//affiche le score
+	//void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
 	void printEndGame(std::ostream& sortie) const;//affiche game over et le score
 	
 	void remplirClients();
@@ -75,7 +74,7 @@ public:
 	void creerLigneScore(std::string mot);
 	void enregistrerLigneScore();
 	void ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2]);
-	void afficherInformation(sf::Text& texte, std::string texteAffichee, sf::Font font, std::ostringstream& ssTime, double valeurInitial, int posX, int posY, int size);
+	//void afficherInformation(sf::Text& texte, std::string texteAffichee, sf::Font font, std::ostringstream& ssTime, double valeurInitial, int posX, int posY, int size);
 	void afficherScores();
 	void afficherInstruction();
 	
