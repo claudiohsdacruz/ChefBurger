@@ -137,11 +137,17 @@ void Ingredient::drawIngredients()
 	dispositionIngredient();
 }
 
-void Ingredient::ingredientsAleatoires()
+void Ingredient::setSizeIngredientChoisi(int i, int x, int y)
 {
-	int index = 0;
-	int index1 = 0;
-	int index2 = 0;
+	for (int i = 0; i < 13; i++)
+	{
+		_ingredientsChoisi[i].setSize(Vector2f(x, y));
+	}
+}
+
+void Ingredient::ingredientsAleatoires(int& index, int& index1, int& index2)
+{
+	
 
 	do
 	{

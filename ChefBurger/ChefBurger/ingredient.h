@@ -39,8 +39,9 @@ public:
 	void ingredients();
 	void drawIngredients();
 	int indexAleatoire();
-	void ingredientsAleatoires();
+	void ingredientsAleatoires(int& index, int& index1, int& index2);
 	void dispositionIngredient();
+	void setSizeIngredientChoisi(int i, int x, int y);
 
 };
 

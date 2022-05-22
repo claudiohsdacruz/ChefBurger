@@ -146,7 +146,12 @@ void Game::initialiseWindow()
 	Font timeFont;
 	Text afficherTime;
 	double time = 60;
-
+	bool ingredientPresent1 = false;
+	bool ingredientPresent2 = false;
+	bool ingredientPresent3 = false;
+	bool ingredientPresent4 = false;
+	bool ingredientPresent5 = false;
+	bool burgerComplet = false;
 	RectangleShape fondEcran;
 	//RectangleShape demande;
 	Sprite client;
@@ -161,6 +166,9 @@ void Game::initialiseWindow()
 	vector <int> _pos;
 	int i = 0;
 	bool toucher = false;
+	int index = 0;
+	int index1 = 0;
+	int index2 = 0;
 	float x = 450;
 	float y = 400;
 
@@ -221,7 +229,12 @@ void Game::initialiseWindow()
 		}
 
 
-
+		ingredientPresent1 = false;
+		ingredientPresent2 = false;
+		ingredientPresent3 = false;
+		ingredientPresent4 = false;
+		ingredientPresent5 = false;
+		burgerComplet = false;
 		while (window.pollEvent(event)) {
 
 
@@ -253,6 +266,7 @@ void Game::initialiseWindow()
 
 
 					affiche = false;
+					
 					// Efface le texte de la page principal
 					_text.setString("");
 
@@ -288,7 +302,7 @@ void Game::initialiseWindow()
 					_ingredient.drawIngredients();
 
 					// Recupérer la demande
-					_ingredient.ingredientsAleatoires();
+					_ingredient.ingredientsAleatoires(index, index1, index2);
 				}
 
 
@@ -447,8 +461,55 @@ void Game::initialiseWindow()
 						size = _pos.size() - 1;
 
 					}
+					
+					for (int i = 0; i < _pos.size(); i++)
+					{
+						if (_pos.at(i) == 0)
+						{
+							ingredientPresent1 = true;
+						}
+						else if (_pos.at(i) == 12)
+						{
+							ingredientPresent2 = true;
+						}
+						else if (_pos.at(i) == index)
+						{
+							ingredientPresent3 = true;
+						}
+						else if (_pos.at(i) == index1)
+						{
+							ingredientPresent4 = true;
+						}
+						else if (_pos.at(i) == index2)
+						{
+							ingredientPresent5 = true;
+						}
+					}
+					if (ingredientPresent1 && ingredientPresent2 && ingredientPresent3 && ingredientPresent4 && ingredientPresent5)
+					{
+						burgerComplet = true;
+					}
+					if (burgerComplet)
+					{
+						/*trouverClient();
+						textureClient.loadFromFile(_textureClient1);
+						client.setTexture(textureClient);
+						client.setScale(0.40, 0.40);
+						client.setPosition(600, 178);
+						_ingredient.ingredientsAleatoires(index, index1, index2);
+						//_ingredient.~Ingredient();*/
+						for (int i = 0; i < 13; i++)
+						{
+							_ingredient.setSizeIngredientChoisi(i, 0, 0);
+							_ingredient.setIngredientChoisi(0, 0, i);
+						}
+						
+						cout << "tuhk" << endl;
+					}
 				}
+				
 			}
+			
 			// Affichage du client colérique après 10 secondes
 			if (elapsed.asSeconds() >= 10)
 			{
@@ -459,7 +520,8 @@ void Game::initialiseWindow()
 				elapsed = clock.restart();
 			}
 		}
-
+		
+		
 		window.clear();
 		window.draw(fondEcran);
 		window.draw(afficherScore);
@@ -481,7 +543,13 @@ void Game::initialiseWindow()
 			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
 		}
 		window.display();
+		
+		/*for (int i = 0; i < _pos.size(); i++)
+		{
+			_ingredient.setSizeIngredientChoisi(i, 120, 90);
+		}*/
 	}
+	
 }
 
 void Game::initialiseJeu()
@@ -705,7 +773,7 @@ void Game::afficherScores()
 void Game::afficherInstruction()
 {
 	system("cls");
-
+	
 	cout << "\t" << "\t" << "\t" << "* * * * * ************************************* * * * * * *" << endl
 		<< "\t" << "\t" << "\t" << "\t" " * * *                             * * *" << endl
 		<< "\t" << "\t" << "\t" << "\t" " * * *                             * * *" << endl
@@ -718,9 +786,9 @@ void Game::afficherInstruction()
 
 	cout << "\t" << "\t" << "ce jeu se joue seul et non à plusieurs.Pour y jouer c'est très simple " << endl
 		<< "\t" << "\t" << "Il vous suffit de sélectionner les bons ingrédients correspondant à celle" << endl
-		<< "\t" << "\t" << "du menu de droite et reproduire correctement ce menu dans un temps maximal" << endl
-		<< "\t" << "\t" << "de 60 secondes. En cas de faute effacer avec la croix blanche dans un fond rouge."
-
+		<< "\t" << "\t" << "du menu de droite et reproduire correctement ce menu dans un temps maximal" << endl 
+		<< "\t" << "\t" << "de 60 secondes. En cas de faute effacer avec la croix blanche dans un fond rouge." << endl
+		<< "\t" << "\t" << "Cliquer sur la touche espace pour commencer à jouer ou rejouer"
 		<< endl << endl;
 }
 
