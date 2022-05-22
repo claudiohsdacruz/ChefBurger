@@ -77,6 +77,7 @@ public:
 	void ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2]);
 	void afficherInformation(sf::Text& texte, std::string texteAffichee, sf::Font font, std::ostringstream& ssTime, double valeurInitial, int posX, int posY, int size);
 	void afficherScores();
+	void afficherInstruction();
 	
 
 };

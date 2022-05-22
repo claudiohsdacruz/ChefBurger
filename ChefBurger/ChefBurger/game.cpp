@@ -111,7 +111,7 @@ void Game::setText(sf::Text& text, const char* message, sf::Font& font, int posX
 
 void Game::setIngredientChoisi(int x, int y, int i)
 {
-	_ingredient.getIngredientsChoisis(i).setPosition(x,y);
+	_ingredient.getIngredientsChoisis(i).setPosition(x, y);
 
 }
 
@@ -198,12 +198,13 @@ void Game::initialiseWindow()
 
 	while (window.isOpen()) {
 
+
 		// Time
 		// Initialisation du time du jeu
 		timeDuJeu = clockTime.getElapsedTime();
 		_time = timeDuJeu.asSeconds();
 		time = 60 - trunc(_time);
-		
+
 		// Paramètres pour la affichage du time
 		std::ostringstream ssTime;
 		if (!affiche) {
@@ -213,23 +214,29 @@ void Game::initialiseWindow()
 			afficherTime.setFont(font);
 			afficherTime.setString(ssTime.str());
 		}
-		
 		// Affiche message de initialisation du jeu
 		if (affiche) {
 			setText(_text, "Touche <Espace> pour jouer", font, 350, 700, 42, Color::White);
+
 		}
-		
+
+
+
 		while (window.pollEvent(event)) {
+
 
 			if (event.type == Event::Closed)
 				window.close();
-			
+
+
 			// Initialise le temps pour le client faire le burguer
 			elapsed = clock.getElapsedTime();
 			elapsed.asSeconds();
-			
-			
+
+
 			if (event.type == Event::KeyPressed) {
+
+
 
 				// Paramètres de l'affichage du score
 				std::ostringstream ssScore;
@@ -238,9 +245,12 @@ void Game::initialiseWindow()
 				afficherScore.setPosition({ 20, 230 });
 				afficherScore.setFont(font);
 				afficherScore.setString(ssScore.str());
-				
+
 				// Initialise l'ecran du Jeu
 				if (event.key.code == Keyboard::Space) {
+
+					//system("cls");
+
 
 					affiche = false;
 					// Efface le texte de la page principal
@@ -280,25 +290,10 @@ void Game::initialiseWindow()
 					// Recupérer la demande
 					_ingredient.ingredientsAleatoires();
 				}
-			}
-			//demanderNomJoueur();
-			/*
-			setText(_text, "Quel est votre nom ? ", font, 630, 400, 40, Color::Red);
-			if (event.type == sf::Event::TextEntered)
-			{
-				if (event.text.unicode < 128)
-					lettre = 20;
 
-				while (lettre != 13) {
-					cout << "letre : " << static_cast<char>(event.text.unicode) << endl;
-					lettre = _getch();
-					_nomJoueur += lettre;
-					//setText(text, _nomJoueur);
 
-				}
-				cout << _nomJoueur << endl;
 			}
-			*/
+
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
@@ -309,7 +304,7 @@ void Game::initialiseWindow()
 				{
 					// Premier pain
 					if (event.mouseButton.x > 109 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
-					{	
+					{
 						_pos.push_back(0);
 						_ingredient.setIngredientChoisi(x, y, 0);
 						toucher = true;
@@ -382,7 +377,7 @@ void Game::initialiseWindow()
 					}
 					// Oignon
 					if (event.mouseButton.x > 112 && event.mouseButton.x < 176 && event.mouseButton.y > 620 && event.mouseButton.y < 666)
-					{	
+					{
 						_pos.push_back(7);
 						if (toucher)
 						{
@@ -393,7 +388,7 @@ void Game::initialiseWindow()
 					}
 					// Poivron
 					if (event.mouseButton.x > 269 && event.mouseButton.x < 341 && event.mouseButton.y > 621 && event.mouseButton.y < 663)
-					{						
+					{
 						_pos.push_back(8);
 						if (toucher)
 						{
@@ -450,7 +445,7 @@ void Game::initialiseWindow()
 					if (event.mouseButton.x > 1045 && event.mouseButton.x < 1145 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
 					{
 						size = _pos.size() - 1;
-						
+
 					}
 				}
 			}
@@ -472,7 +467,7 @@ void Game::initialiseWindow()
 		window.draw(client);
 		window.draw(_text);
 		// Affichage de les ingredients da demande du client
-		for (int i = 0; i < 5; i++){
+		for (int i = 0; i < 5; i++) {
 			window.draw(_ingredient.getIngredients(i));
 		}
 		// Affichage de la liste complet des ingredients
@@ -481,7 +476,7 @@ void Game::initialiseWindow()
 			window.draw(_ingredient.getIngredients2(i));
 		}
 		// Affichage de les ingredients choisi pour faire le burger
-		for (int i = 0; i < _pos.size() ; i++)
+		for (int i = 0; i < _pos.size(); i++)
 		{
 			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
 		}
@@ -501,16 +496,16 @@ void Game::initialiseJeu()
 
 void Game::demanderNomJoueur()
 {
-	cout << "Quel est le nom du joueur ? " << endl;
-	getline(cin,_nomJoueur);
-	cout << _nomJoueur;
+	cout << " Joueur! Entrez votre nom pour débuter : ";
+	getline(cin, _nomJoueur);
+	cout << _nomJoueur << " Bonne chance pour le jeu " << endl;
 }
 
 void Game::play()
 {
+	afficherInstruction();
+	demanderNomJoueur();
 	initialiseWindow();
-
-	//
 
 	this->printEndGame(cout); //Affiche la message de fin du jeu
 	if (_lose) {
@@ -705,6 +700,28 @@ void Game::afficherScores()
 
 	system("pause");
 	monFlux.close();
+}
+
+void Game::afficherInstruction()
+{
+	system("cls");
+
+	cout << "\t" << "\t" << "\t" << "* * * * * ************************************* * * * * * *" << endl
+		<< "\t" << "\t" << "\t" << "\t" " * * *                             * * *" << endl
+		<< "\t" << "\t" << "\t" << "\t" " * * *                             * * *" << endl
+
+		<< "\t" << "\t" << "\t" << "\t" << "     " << "Bienvenue sur le jeu chefBurger " << endl
+		<< "\t" << "\t" << "\t" << "\t" " * * *                             * * *" << endl
+		<< "\t" << "\t" << "\t" << "\t" " * * *                             * * *" << endl;
+	cout << "\t" << "\t" << "\t" << "* * * * * ************************************* * * * * * *" << endl << endl << endl;
+
+
+	cout << "\t" << "\t" << "ce jeu se joue seul et non à plusieurs.Pour y jouer c'est très simple " << endl
+		<< "\t" << "\t" << "Il vous suffit de sélectionner les bons ingrédients correspondant à celle" << endl
+		<< "\t" << "\t" << "du menu de droite et reproduire correctement ce menu dans un temps maximal" << endl
+		<< "\t" << "\t" << "de 60 secondes. En cas de faute effacer avec la croix blanche dans un fond rouge."
+
+		<< endl << endl;
 }
 
 //afficherIngredientChoisi(textureIngredient, ingredientChoisi, 12);
