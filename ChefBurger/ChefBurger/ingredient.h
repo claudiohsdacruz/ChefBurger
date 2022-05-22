@@ -33,7 +33,6 @@ public:
 	int getHeight() const;
 	int getPos(int i)const;
 	int getPosSize()const;
-	void setIngredientChoisi(int x, int y, int i);
 	sf::RectangleShape getIngredients2(int i)const;
 	sf::RectangleShape getIngredientsChoisis(int i)const;
 	sf::RectangleShape getIngredients(int i)const;
@@ -42,6 +41,7 @@ public:
 	void setPosY(int y);
 	void setWidth(int w);
 	void setHeight(int h);
+	void setIngredientChoisi(int x, int y, int i);
 
 	void ingredients();
 	void drawIngredients();

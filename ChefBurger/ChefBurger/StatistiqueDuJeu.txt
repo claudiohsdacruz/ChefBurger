@@ -1,0 +1,28 @@
+****************************Joueur : sarah*****************************
+
+Score Total : 10
+Moyenne des scores : 10
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
+****************************Joueur : ass*****************************
+
+Score Total : 0
+Moyenne des scores : 0
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
+****************************Joueur : ds*****************************
+
+Score Total : 30
+Moyenne des scores : 30
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
+****************************Joueur : sarahh*****************************
+
+Score Total : 10
+Moyenne des scores : 5
+Nombre de parties jouées : 2
+Commentaire : bien
+

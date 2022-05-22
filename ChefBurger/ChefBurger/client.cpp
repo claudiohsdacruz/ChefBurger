@@ -18,7 +18,6 @@ Client::Client()
 	_posY = 0;
 	_width = 200;
 	_height = 263;
-	//_name = "client1";
 }
 
 Client::~Client()
@@ -48,11 +47,6 @@ int Client::getHeight() const
 {
 	return _height;
 }
-/*
-std::string Client::getName() const
-{
-	return _name;
-}*/
 
 void Client::setPosX(int x)
 {

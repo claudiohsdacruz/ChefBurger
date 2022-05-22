@@ -50,6 +50,38 @@ Ingredient::~Ingredient()
 	}
 }
 
+
+int Ingredient::getPosX() const
+{
+	return _posX;
+}
+
+int Ingredient::getPosY() const
+{
+	return _posY;
+}
+
+int Ingredient::getWidth() const
+{
+	return _width;
+}
+
+int Ingredient::getHeight() const
+{
+	return _height;
+}
+
+int Ingredient::getPos(int i)const
+{
+	return _pos.at(i);
+}
+
+int Ingredient::getPosSize()const
+{
+	return _pos.size();
+}
+
+
 RectangleShape Ingredient::getIngredients2(int i)const
 {
 	return _ingredients2[i];
@@ -65,26 +97,6 @@ RectangleShape Ingredient::getIngredients(int i)const
 	return _ingredients[i];
 }
 
-int Ingredient::getPos(int i)const
-{
-	return _pos.at(i);
-}
-
-int Ingredient::getPosSize()const
-{
-	return _pos.size();
-}
-
-int Ingredient::getPosX() const
-{
-	return _posX;
-}
-
-int Ingredient::getPosY() const
-{
-	return _posY;
-}
-
 void Ingredient::setPosX(int x)
 {
 	_posX = x;
@@ -93,6 +105,16 @@ void Ingredient::setPosX(int x)
 void Ingredient::setPosY(int y)
 {
 	_posY = y;
+}
+
+void Ingredient::setWidth(int w) 
+{
+	_width = w;
+}
+
+void Ingredient::setHeight(int h) 
+{
+	_height = h;
 }
 
 void Ingredient::setIngredientChoisi(int x, int y, int i)
@@ -145,10 +167,6 @@ void Ingredient::drawIngredients()
 
 void Ingredient::ingredientsAleatoires(int& index, int& index1, int& index2)
 {
-	/*int index = 0;
-	int index1 = 0;
-	int index2 = 0;
-	*/
 	do
 	{
 		index = indexAleatoire();

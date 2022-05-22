@@ -12,18 +12,16 @@ class Game
 private:
 	int _score;
 	double _time;
-	int _life;
+	int _nbParties;
+	int _scoreTotal;
 	bool _lose;
 	bool _restartTime;
 
 	sf::Text _text;
-	//sf::Text _Jouer;
 	std::string _nomJoueur;
 	std::string _ligneScore;
-	
 	Client _client;
 	Ingredient _ingredient;
-	
 	std::string _textureClient1;
 	std::string _textureClient2;
 	std::string _textureIngredient;
@@ -35,16 +33,15 @@ public:
 	~Game();
 
 	int getScore() const;
+	int getScoreTotal() const;
 	int getTime() const;
-	int getLife() const;
+	int getNbParties()const;
 	bool getLose() const;
-
 	std::string getNomJoueur() const;
 	Client getClient()const;
 
 	void setScore(int newScore);
 	void setTime(int newTime);
-	void setLife(int newLife);
 	void setLose(bool lose);
 	void setNomJoueur(std::string newNomJoueur);
 	void setClient(Client newClient);
@@ -54,14 +51,12 @@ public:
 	void initialiseWindow();
 	void initialiseJeu();
 	void demanderNomJoueur();
-	bool validerDemande(std::vector <int> _pos, int& index, int& index1, int& index2);
-	void play();				//la main loop du jeu
+	bool validerDemande(std::vector <int> pos, int& index, int& index1, int& index2);
+	void play();
 	int numAleatoire(int min, int max);
 	Client randClient() const;
 
 	void endGame();
-	//void printScore(std::ostream& sortie) const;	//affiche le score
-	//void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
 	void printEndGame(std::ostream& sortie) const;//affiche game over et le score
 	
 	void remplirClients();
@@ -74,9 +69,9 @@ public:
 	void creerLigneScore(std::string mot);
 	void enregistrerLigneScore();
 	void ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2]);
-	//void afficherInformation(sf::Text& texte, std::string texteAffichee, sf::Font font, std::ostringstream& ssTime, double valeurInitial, int posX, int posY, int size);
 	void afficherScores();
 	void afficherInstruction();
-	
-
+	void laisserCommentaire(std::string &commentaire, char reponse); // donne la possibilité à l'utilisateur de laisser un commentaire
+	void statistiqueDuJeu(std::string& commentaire);
+	void viderBuffer();
 };
