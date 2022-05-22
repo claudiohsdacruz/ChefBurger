@@ -44,6 +44,11 @@ Ingredient::~Ingredient()
 	}
 }
 
+void Ingredient::destructeurIngredientChoisi(int i, int width, int height)
+{
+	_ingredientsChoisi[i].setSize(Vector2f(width, height));
+}
+
 RectangleShape Ingredient::getIngredients2(int i)const
 {
 	return _ingredients2[i];
@@ -137,12 +142,8 @@ void Ingredient::drawIngredients()
 	dispositionIngredient();
 }
 
-void Ingredient::ingredientsAleatoires()
+void Ingredient::ingredientsAleatoires(int& index, int& index1, int& index2)
 {
-	int index = 0;
-	int index1 = 0;
-	int index2 = 0;
-
 	do
 	{
 		index = indexAleatoire();

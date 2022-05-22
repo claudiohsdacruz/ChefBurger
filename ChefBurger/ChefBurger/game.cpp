@@ -142,7 +142,9 @@ void Game::initialiseWindow()
 	sf::Text afficherScore;
 	int score = 0;
 	int size = 1;
-
+	int index = 0;
+	int index1 = 0;
+	int index2 = 0;
 	Font timeFont;
 	Text afficherTime;
 	double time = 60;
@@ -152,7 +154,12 @@ void Game::initialiseWindow()
 	Sprite client;
 	Sprite ingredientChoisi;
 	//std::ostringstream ssTime;
-
+	bool ingredientPresent1 = false;
+	bool ingredientPresent2 = false;
+	bool ingredientPresent3 = false;
+	bool ingredientPresent4 = false;
+	bool ingredientPresent5 = false;
+	bool burgerComplet = false;
 	Texture textureClient;
 	Texture textureIngredient;
 
@@ -219,8 +226,10 @@ void Game::initialiseWindow()
 			setText(_text, "Touche <Espace> pour jouer", font, 350, 700, 42, Color::White);
 		}
 		
-		while (window.pollEvent(event)) {
-
+		while (window.pollEvent(event)) 
+		{
+			
+			
 			if (event.type == Event::Closed)
 				window.close();
 			
@@ -264,9 +273,8 @@ void Game::initialiseWindow()
 					gameplayMusic.play();
 
 					initialiseJeu();
-
 					trouverClient();
-
+					
 					// Paramètres du client
 					textureClient.loadFromFile(_textureClient1);
 					client.setTexture(textureClient);
@@ -278,8 +286,10 @@ void Game::initialiseWindow()
 					_ingredient.drawIngredients();
 
 					// Recupérer la demande
-					_ingredient.ingredientsAleatoires();
-				}
+					_ingredient.ingredientsAleatoires(index, index1, index2);
+					
+
+				} 
 			}
 			//demanderNomJoueur();
 			/*
@@ -299,18 +309,21 @@ void Game::initialiseWindow()
 				cout << _nomJoueur << endl;
 			}
 			*/
-
+		
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
+				
 				clickSound.play();// Sound du click
 
 				// Permet de choisir le ingredient pour monter le burger
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
+				
 					// Premier pain
 					if (event.mouseButton.x > 109 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
 					{	
 						_pos.push_back(0);
+						
 						_ingredient.setIngredientChoisi(x, y, 0);
 						toucher = true;
 					}
@@ -446,16 +459,74 @@ void Game::initialiseWindow()
 						_ingredient.setIngredientChoisi(x, y, 12);
 						toucher = true;
 					}
+					
+
 					// Effacer
 					if (event.mouseButton.x > 1045 && event.mouseButton.x < 1145 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
 					{
 						size = _pos.size() - 1;
 						
 					}
+					
+					for (int i = 0; i < _pos.size(); i++)
+					{
+						if (_pos.at(i) == 0)
+						{
+							ingredientPresent1 = true;
+						}
+						else if (_pos.at(i) == 12)
+						{
+							ingredientPresent2 = true;
+						}
+						else if (_pos.at(i) == index)
+						{
+							ingredientPresent3 = true;
+						}
+						else if (_pos.at(i) == index1)
+						{
+							ingredientPresent4 = true;
+						}
+						else if (_pos.at(i) == index2)
+						{
+							ingredientPresent5 = true;
+						}
+					}
+				
+					if (ingredientPresent1 && ingredientPresent2 && ingredientPresent3 && ingredientPresent4 && ingredientPresent5)
+					{
+						burgerComplet = true;
+					}
+					if (burgerComplet)
+					{
+						x = 450;
+						y = 400;
+						/*trouverClient();
+						textureClient.loadFromFile(_textureClient1);
+						client.setTexture(textureClient);
+						client.setScale(0.40, 0.40);
+						client.setPosition(600, 178);
+						_ingredient.ingredientsAleatoires(index, index1, index2);*/
+						for (int i = 0; i < 13; i++)
+						{
+							_ingredient.destructeurIngredientChoisi(i, 0, 0);
+						}
+
+					}
+					/*for (int i = 0; i < 13; i++)
+					{
+						_ingredient.destructeurIngredientChoisi(i, 120, 90);
+					}*/
+
+					//burgerComplet = false;
+					/*textureClient.loadFromFile(_textureClient1);
+					client.setTexture(textureClient);
+					client.setScale(0.40, 0.40);
+					client.setPosition(600, 178);
+					elapsed = clock.restart();*/
 				}
 			}
-			// Affichage du client colérique après 10 secondes
-			if (elapsed.asSeconds() >= 10)
+						// Affichage du client colérique après 10 secondes
+			if (elapsed.asSeconds() >= 10 )
 			{
 				textureClient.loadFromFile(_textureClient2);
 				client.setTexture(textureClient);
@@ -464,7 +535,8 @@ void Game::initialiseWindow()
 				elapsed = clock.restart();
 			}
 		}
-
+		
+		
 		window.clear();
 		window.draw(fondEcran);
 		window.draw(afficherScore);
@@ -485,7 +557,10 @@ void Game::initialiseWindow()
 		{
 			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
 		}
+		
 		window.display();
+		burgerComplet = false;
+		
 	}
 }
 

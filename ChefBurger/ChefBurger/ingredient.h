@@ -37,9 +37,10 @@ public:
 	void setHeight(int h);
 
 	void ingredients();
+	void destructeurIngredientChoisi(int i, int width, int height);
 	void drawIngredients();
 	int indexAleatoire();
-	void ingredientsAleatoires();
+	void ingredientsAleatoires(int& index, int& index1, int& index2);
 	void dispositionIngredient();
 
 };
