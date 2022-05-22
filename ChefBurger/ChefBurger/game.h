@@ -11,16 +11,26 @@ class Game
 {
 private:
 	int _score;
-	int _time;
+	double _time;
 	int _life;
 	bool _lose;
+	bool _restartTime;
 
+	sf::Text _text;
+	//sf::Text _Jouer;
 	std::string _nomJoueur;
-
-	//vector<Ingredient> _ingredients;
-	//vector<Ingredient> _demande;
+	std::string _ligneScore;
+	
 	Client _client;
-	Fenetre _fenetre;
+	Ingredient _ingredient;
+	
+
+	std::string _textureClient1;
+	std::string _textureClient2;
+	std::string _textureIngredient;
+	std::vector<std::string> _clients;
+	std::vector<std::string> _ingredients;
+	std::vector<sf::Sprite> _burger;
 
 public:
 	Game();
@@ -30,9 +40,9 @@ public:
 	int getTime() const;
 	int getLife() const;
 	bool getLose() const;
+
 	std::string getNomJoueur() const;
 	Client getClient()const;
-	Fenetre getFenetre() const;
 
 	void setScore(int newScore);
 	void setTime(int newTime);
@@ -40,18 +50,33 @@ public:
 	void setLose(bool lose);
 	void setNomJoueur(std::string newNomJoueur);
 	void setClient(Client newClient);
-	void setText(sf::Text& text);
-	//void setFenetre(Fenetre tableau);
+	void setText(sf::Text& text, const char* message, sf::Font& font, int posX, int posY, int taille, const sf::Color& color);
+	void setIngredientChoisi(int x, int y, int i);
 
 	void initialiseWindow();
 	void initialiseJeu();
-	std::string demanderNomJoueur();
+	void demanderNomJoueur();
 	void play();				//la main loop du jeu
+	int numAleatoire(int min, int max);
 	Client randClient() const;
+
 	void endGame();
 	void printScore(std::ostream& sortie) const;	//affiche le score
-	void printLive(std::ostream& sortie) const;	//affiche le compteur de vie
 	void printTime(std::ostream& sortie) const;	//affiche le compteur de temps)
 	void printEndGame(std::ostream& sortie) const;//affiche game over et le score
+	
+	void remplirClients();
+	void remplirIngredients();
+
+	void trouverClient();
+	void trouverIngredient();
+	void afficherIngredientChoisi(sf::Texture& texture, sf::Sprite& ingredientChoisi, int index);
+
+	void creerLigneScore(std::string mot);
+	void enregistrerLigneScore();
+	void ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2]);
+	void afficherInformation(sf::Text& texte, std::string texteAffichee, sf::Font font, std::ostringstream& ssTime, double valeurInitial, int posX, int posY, int size);
+	void afficherScores();
+	
 
 };

@@ -1,10 +1,14 @@
-#include <iostream>
+﻿#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <conio.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "client.h"
 #include "burger.h"
 #include "ingredient.h"
-#include "fenetre.h"
 #include "game.h"
 
 using namespace sf;
@@ -13,14 +17,15 @@ using namespace std;
 Game::Game()
 {
 	_score = 0;
-	_time = 10000;
+	_time = 60;
 	_life = 3;
 	_lose = false;
+	_restartTime = true;
 	_nomJoueur = "NomInconnu";
-	//_ingredients = {};
-	//_demande = {};
+	_ligneScore = "";
+	_ingredient = Ingredient();
+	_clients = {};
 	_client = Client();
-	_fenetre = Fenetre();
 }
 
 Game::~Game()
@@ -29,11 +34,11 @@ Game::~Game()
 	_time = 0;
 	_life = 0;
 	_lose = true;
-	_nomJoueur = "NomInconnu";
-	//_ingredients = {};
+	_restartTime = false;
+	_nomJoueur = "";
+	_ingredient.~Ingredient();
 	//_demande = {};
 	_client.~Client();
-	_fenetre.~Fenetre();
 }
 
 int Game::getScore() const
@@ -43,7 +48,7 @@ int Game::getScore() const
 
 int Game::getTime() const
 {
-	return _time / 1000;
+	return _time;
 }
 
 int Game::getLife() const
@@ -66,11 +71,6 @@ Client Game::getClient() const
 	return _client;
 }
 
-Fenetre Game::getFenetre() const
-{
-	return _fenetre;
-}
-
 void Game::setScore(int newScore)
 {
 	_score = newScore;
@@ -78,7 +78,7 @@ void Game::setScore(int newScore)
 
 void Game::setTime(int newTime)
 {
-	_time = newTime * 1000;
+	_time = newTime;
 }
 
 void Game::setLife(int newLife)
@@ -101,175 +101,505 @@ void Game::setClient(Client newClient)
 	_client = newClient;
 }
 
-void Game::setText(sf::Text& text)
+void Game::setText(sf::Text& text, const char* message, sf::Font& font, int posX, int posY, int taille, const sf::Color& color)
 {
-	text.setCharacterSize(48);
-	text.setString("Nom du jouer : ");
-	text.setFillColor(sf::Color::Black);
+	_text.setCharacterSize(taille);
+	_text.setString(message);
+	_text.setFillColor(color);
+	_text.setPosition(posX, posY);
+}
+
+void Game::setIngredientChoisi(int x, int y, int i)
+{
+	_ingredient.getIngredientsChoisis(i).setPosition(x,y);
+
 }
 
 void Game::initialiseWindow()
 {
 	sf::Font font;
-	sf::Text text;
-	
+	//sf::Text text;
+	bool affiche = true;
+
+	sf::Music backgroundMusic;
+	sf::Music gameplayMusic;
+
+	sf::SoundBuffer buffer;
+	buffer.loadFromFile("ressources/Audios/Click.ogg");
+
+	sf::Sound clickSound;
+	clickSound.setBuffer(buffer);
+
+	Clock clock;
+	Clock clockTime;
+	Time elapsed;
+	Time timeDuJeu;
+
 	RenderWindow window(VideoMode(1280, 800), "Chef Burger", Style::Close);
 	Event event;
-	bool affiche = false;
-	
+
+	sf::Font scoreFont;
+	sf::Text afficherScore;
+	int score = 0;
+	int size = 1;
+	int index = 0;
+	int index1 = 0;
+	int index2 = 0;
+	Font timeFont;
+	Text afficherTime;
+	double time = 60;
+
 	RectangleShape fondEcran;
-	vector<RectangleShape> ingredients;
+	//RectangleShape demande;
+	Sprite client;
+	Sprite ingredientChoisi;
+	//std::ostringstream ssTime;
+	bool ingredientPresent1 = false;
+	bool ingredientPresent2 = false;
+	bool ingredientPresent3 = false;
+	bool ingredientPresent4 = false;
+	bool ingredientPresent5 = false;
+	bool burgerComplet = false;
+	Texture textureClient;
+	Texture textureIngredient;
+
+	char lettre = 20;
+
+	vector <int> _pos;
+	int i = 0;
+	bool toucher = false;
+	float x = 450;
+	float y = 400;
 
 	window.setVerticalSyncEnabled(true); // active la synchronisation verticale
 	fondEcran.setSize(Vector2f(1280, 800));
+	IntRect rectFond(0, 0, 1208, 800);
 
-	IntRect rectSprite(0, 0, 1280, 800);
-	fondEcran.setTextureRect(rectSprite);
+
 	Texture texture;
-
-	if (!texture.loadFromFile("ressources/Menu.jpg"))
+	if (!texture.loadFromFile("ressources/Images/Menu.jpg"))
 	{
 		window.close();
 	}
 	fondEcran.setTexture(&texture);
 
-	if (!font.loadFromFile("ressources/Lobster.ttf"))
+	if (!font.loadFromFile("ressources/Polices/LuckiestGuy.ttf"))
 	{
 		window.close();
 	}
-	text.setFont(font);
+	_text.setFont(font);
+
+	if (!backgroundMusic.openFromFile("ressources/Audios/MenuMusic.ogg"))
+	{
+		cout << "Erreur";
+	}
+
+	if (!gameplayMusic.openFromFile("ressources/Audios/gameMusic.ogg"))
+	{
+		cout << "Erreur";
+	}
+
+
+	backgroundMusic.setVolume(50);
+	backgroundMusic.play();
 
 	while (window.isOpen()) {
-		while (window.pollEvent(event)) {
+
+		// Time
+		// Initialisation du time du jeu
+		timeDuJeu = clockTime.getElapsedTime();
+		_time = timeDuJeu.asSeconds();
+		time = 60 - trunc(_time);
+		
+		// Paramètres pour la affichage du time
+		std::ostringstream ssTime;
+		if (!affiche) {
+			ssTime << "Time : " << time;
+			afficherTime.setCharacterSize(30);
+			afficherTime.setPosition({ 20, 280 });
+			afficherTime.setFont(font);
+			afficherTime.setString(ssTime.str());
+		}
+		
+		// Affiche message de initialisation du jeu
+		if (affiche) {
+			setText(_text, "Touche <Espace> pour jouer", font, 350, 700, 42, Color::White);
+		}
+		
+		while (window.pollEvent(event)) 
+		{
+			
+			
 			if (event.type == Event::Closed)
 				window.close();
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				if (event.mouseButton.button == sf::Mouse::Left)
-				{
-					//std::cout << "mouse x: " << event.mouseButton.x << std::endl;
-					//std::cout << "mouse y: " << event.mouseButton.y << std::endl;
+			
+			// Initialise le temps pour le client faire le burguer
+			elapsed = clock.getElapsedTime();
+			elapsed.asSeconds();
+			
+			
+			if (event.type == Event::KeyPressed) {
 
-					if (event.mouseButton.x > 235 && event.mouseButton.x < 445 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
-						fondEcran.setTextureRect(rectSprite);
-						if (!texture.loadFromFile("ressources/EnConstruction.jpg"))
-						{
-							window.close();
-						}
-						fondEcran.setTexture(&texture);
+				// Paramètres de l'affichage du score
+				std::ostringstream ssScore;
+				ssScore << "Score : " << score;
+				afficherScore.setCharacterSize(30);
+				afficherScore.setPosition({ 20, 230 });
+				afficherScore.setFont(font);
+				afficherScore.setString(ssScore.str());
+				
+				// Initialise l'ecran du Jeu
+				if (event.key.code == Keyboard::Space) {
+
+					affiche = false;
+					// Efface le texte de la page principal
+					_text.setString("");
+
+					// Renitialise le temps du jeu
+					if (_restartTime) {
+						clockTime.restart();
+						_restartTime = false;
 					}
 
-					if (event.mouseButton.x > 505 && event.mouseButton.x < 775 && event.mouseButton.y > 510 && event.mouseButton.y < 775) {
-						initialiseJeu();
-						setText(text);
-						if (!texture.loadFromFile("ressources/RestoInt.jpg"))
-						{
-							window.close();
-						}
-						fondEcran.setTexture(&texture);
-					}
-
-					if (event.mouseButton.x > 835 && event.mouseButton.x < 1045 && event.mouseButton.y > 510 && event.mouseButton.y < 725) {
+					// Change le fond de l'Ecran
+					if (!texture.loadFromFile("ressources/Images/RestoInt.jpg"))
+					{
 						window.close();
 					}
+					fondEcran.setTexture(&texture);
+
+					// Change la musique
+					backgroundMusic.stop();
+					gameplayMusic.play();
+
+					initialiseJeu();
+					trouverClient();
+					
+					// Paramètres du client
+					textureClient.loadFromFile(_textureClient1);
+					client.setTexture(textureClient);
+					client.setScale(0.40, 0.40);
+					client.setPosition(600, 178);
+					elapsed = clock.restart(); // reinialise le clock du client
+
+					// Recupérer tous les ingredients
+					_ingredient.drawIngredients();
+
+					// Recupérer la demande
+					_ingredient.ingredientsAleatoires(index, index1, index2);
+					
+
+				} 
+			}
+			//demanderNomJoueur();
+			/*
+			setText(_text, "Quel est votre nom ? ", font, 630, 400, 40, Color::Red);
+			if (event.type == sf::Event::TextEntered)
+			{
+				if (event.text.unicode < 128)
+					lettre = 20;
+
+				while (lettre != 13) {
+					cout << "letre : " << static_cast<char>(event.text.unicode) << endl;
+					lettre = _getch();
+					_nomJoueur += lettre;
+					//setText(text, _nomJoueur);
+
+				}
+				cout << _nomJoueur << endl;
+			}
+			*/
+		
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				
+				clickSound.play();// Sound du click
+
+				// Permet de choisir le ingredient pour monter le burger
+				if (event.mouseButton.button == sf::Mouse::Left)
+				{
+				
+					// Premier pain
+					if (event.mouseButton.x > 109 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
+					{	
+						_pos.push_back(0);
+						
+						_ingredient.setIngredientChoisi(x, y, 0);
+						toucher = true;
+					}
+					// Avocat
+					if (event.mouseButton.x > 270 && event.mouseButton.x < 340 && event.mouseButton.y > 522 && event.mouseButton.y < 561)
+					{
+						_pos.push_back(1);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 1);
+						toucher = true;
+					}
+					//Bacon
+					if (event.mouseButton.x > 430 && event.mouseButton.x < 495 && event.mouseButton.y > 530 && event.mouseButton.y < 558)
+					{
+						_pos.push_back(2);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 2);
+						toucher = true;
+					}
+					// Boeuf
+					if (event.mouseButton.x > 614 && event.mouseButton.x < 668 && event.mouseButton.y > 525 && event.mouseButton.y < 556)
+					{
+						_pos.push_back(3);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 3);
+						toucher = true;
+					}
+					// Cornichon
+					if (event.mouseButton.x > 750 && event.mouseButton.x < 850 && event.mouseButton.y > 520 && event.mouseButton.y < 570)
+					{
+						_pos.push_back(4);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 4);
+						toucher = true;
+					}
+					// Salade
+					if (event.mouseButton.x > 900 && event.mouseButton.x < 1020 && event.mouseButton.y > 520 && event.mouseButton.y < 570)
+					{
+						_pos.push_back(5);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 5);
+						toucher = true;
+					}
+					// Oeuf
+					if (event.mouseButton.x > 1070 && event.mouseButton.x < 1175 && event.mouseButton.y > 527 && event.mouseButton.y < 570)
+					{
+						_pos.push_back(6);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 6);
+						toucher = true;
+					}
+					// Oignon
+					if (event.mouseButton.x > 112 && event.mouseButton.x < 176 && event.mouseButton.y > 620 && event.mouseButton.y < 666)
+					{	
+						_pos.push_back(7);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 7);
+						toucher = true;
+					}
+					// Poivron
+					if (event.mouseButton.x > 269 && event.mouseButton.x < 341 && event.mouseButton.y > 621 && event.mouseButton.y < 663)
+					{						
+						_pos.push_back(8);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 8);
+						toucher = true;
+					}
+					// Tomate
+					if (event.mouseButton.x > 430 && event.mouseButton.x < 530 && event.mouseButton.y > 621 && event.mouseButton.y < 660)
+					{
+						_pos.push_back(9);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 9);
+						toucher = true;
+					}
+					// Jambon
+					if (event.mouseButton.x > 590 && event.mouseButton.x < 690 && event.mouseButton.y > 627 && event.mouseButton.y < 662)
+					{
+						_pos.push_back(10);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 10);
+						toucher = true;
+					}
+					//Fromage
+					if (event.mouseButton.x > 740 && event.mouseButton.x < 860 && event.mouseButton.y > 623 && event.mouseButton.y < 651)
+					{
+						_pos.push_back(11);
+						if (toucher)
+						{
+							y -= 15;
+						}
+						_ingredient.setIngredientChoisi(x, y, 11);
+						toucher = true;
+					}
+					// Deuxième pain
+					if (event.mouseButton.x > 905 && event.mouseButton.x < 1005 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
+					{
+						_pos.push_back(12);
+						if (toucher)
+						{
+							y -= 20;
+						}
+						_ingredient.setIngredientChoisi(x, y, 12);
+						toucher = true;
+					}
+					
+
+					// Effacer
+					if (event.mouseButton.x > 1045 && event.mouseButton.x < 1145 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
+					{
+						size = _pos.size() - 1;
+						
+					}
+					
+					for (int i = 0; i < _pos.size(); i++)
+					{
+						if (_pos.at(i) == 0)
+						{
+							ingredientPresent1 = true;
+						}
+						else if (_pos.at(i) == 12)
+						{
+							ingredientPresent2 = true;
+						}
+						else if (_pos.at(i) == index)
+						{
+							ingredientPresent3 = true;
+						}
+						else if (_pos.at(i) == index1)
+						{
+							ingredientPresent4 = true;
+						}
+						else if (_pos.at(i) == index2)
+						{
+							ingredientPresent5 = true;
+						}
+					}
+				
+					if (ingredientPresent1 && ingredientPresent2 && ingredientPresent3 && ingredientPresent4 && ingredientPresent5)
+					{
+						burgerComplet = true;
+					}
+					if (burgerComplet)
+					{
+						x = 450;
+						y = 400;
+						/*trouverClient();
+						textureClient.loadFromFile(_textureClient1);
+						client.setTexture(textureClient);
+						client.setScale(0.40, 0.40);
+						client.setPosition(600, 178);
+						_ingredient.ingredientsAleatoires(index, index1, index2);*/
+						for (int i = 0; i < 13; i++)
+						{
+							_ingredient.destructeurIngredientChoisi(i, 0, 0);
+						}
+
+					}
+					/*for (int i = 0; i < 13; i++)
+					{
+						_ingredient.destructeurIngredientChoisi(i, 120, 90);
+					}*/
+
+					//burgerComplet = false;
+					/*textureClient.loadFromFile(_textureClient1);
+					client.setTexture(textureClient);
+					client.setScale(0.40, 0.40);
+					client.setPosition(600, 178);
+					elapsed = clock.restart();*/
 				}
 			}
-			
+						// Affichage du client colérique après 10 secondes
+			if (elapsed.asSeconds() >= 10 )
+			{
+				textureClient.loadFromFile(_textureClient2);
+				client.setTexture(textureClient);
+				client.setPosition(600, 178);
+				client.setScale(0.40, 0.40);
+				elapsed = clock.restart();
+			}
 		}
+		
+		
 		window.clear();
 		window.draw(fondEcran);
-		window.draw(text);
+		window.draw(afficherScore);
+		window.draw(afficherTime);
+		window.draw(client);
+		window.draw(_text);
+		// Affichage de les ingredients da demande du client
+		for (int i = 0; i < 5; i++){
+			window.draw(_ingredient.getIngredients(i));
+		}
+		// Affichage de la liste complet des ingredients
+		for (int i = 0; i < 14; i++)
+		{
+			window.draw(_ingredient.getIngredients2(i));
+		}
+		// Affichage de les ingredients choisi pour faire le burger
+		for (int i = 0; i < _pos.size() ; i++)
+		{
+			window.draw(_ingredient.getIngredientsChoisis(_pos.at(i)));
+		}
+		
 		window.display();
+		burgerComplet = false;
+		
 	}
 }
 
 void Game::initialiseJeu()
 {
 	_lose = false;
+	_restartTime = true;
 	_score = 0;
-	_time = 0;
-	_nomJoueur = demanderNomJoueur();
-
-	//this->createDemande();
-	//_demande.draw(cout);
-	//this->createClient();
-	//_client.draw(cout);
-
-	//this->printScore(cout);
-	//this->printTime(cout);
+	_time = 60;
+	remplirClients();
+	remplirIngredients();
 }
 
-std::string Game::demanderNomJoueur()
+void Game::demanderNomJoueur()
 {
-
-	string joueur;
 	cout << "Quel est le nom du joueur ? " << endl;
-	cin >> joueur;
-
-	return joueur;
+	getline(cin,_nomJoueur);
+	cout << _nomJoueur;
 }
 
 void Game::play()
 {
 	initialiseWindow();
-	
-	//srand(time(NULL));
-	//this->initialize(); //Initialise la Game(initialise le bool�en, le score, le burger et le client)
-	/*
-	while (!_lose)
-	{
-		Burger burger = _burger.; //Prend la position de la tete du serpent
-		Point a = _apple.getPoint(); //Prend la position de la pomme
-		Point newPosition;
 
-		do
-		{
-			this->inputKey(); //Saisit la touche
-			newPosition = _snake.newPosition(_dir);
-		} while (!this->canMove(newPosition));
-
-		if (_dir != 0)
-		{
-			cout << _snake; //Initialise la prochaine position du Snake selon la direction
-
-			if (_snake.ifCollision(p) || _snake.getHeadPosition().getX() == 39 || _snake.getHeadPosition().getX() == 0 ||
-				_snake.getHeadPosition().getY() == 19 || _snake.getHeadPosition().getY() == 0)
-			{
-				_snake.deleteSnake();	//Efface le serpent
-				_cptLive--;				//Diminue le nb de vie
-				_snake.initialize(20, 10); //Inicialize une nouvelle serpent
-				_plateau.draw(cout);	//Affiche le plateau du jeu
-				_dir = 2;				//Initialise une direction
-				this->printLive(cout); //Affiche le nb de vie
-				if (_cptLive == 0)
-				{
-					this->endGame();	//finalise le jeu
-				}
-			}
-			else if (p.getX() == a.getX() && p.getY() == a.getY())
-			{
-				_snake.eat(_dir); //Le snake mange une pomme(avance et allonge)
-				_score++; //Augmente le score
-				this->printScore(cout); //Affiche le score
-				this->createApple(); //G�n�re une nouvelle pomme
-			}
-			else
-			{
-				_snake.move(_dir); //Le Snake avance � cette nouvelle position
-			}
-
-		}
-	}
-	*/
+	//
 
 	this->printEndGame(cout); //Affiche la message de fin du jeu
+	if (_lose) {
+		creerLigneScore(_nomJoueur);
+		creerLigneScore(to_string(_score));
+	}
 }
-/*
-Burger Game::randIngredient() const
+
+
+int Game::numAleatoire(int min, int max)
 {
-	return Burger();
+	return rand() % (max - min + 1) + min;
 }
-*/
+
 Client Game::randClient() const
 {
 	return Client();
@@ -289,14 +619,6 @@ void Game::printScore(std::ostream& sortie) const
 	*/
 }
 
-void Game::printLive(std::ostream& sortie) const
-{
-	/*
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-	gotoxy(0, 21);
-	sortie << "Score : " << _score;
-	*/
-}
 
 void Game::printTime(std::ostream& sortie) const
 {
@@ -310,3 +632,156 @@ void Game::printEndGame(std::ostream& sortie) const
 	sortie << "GAME OVER!";
 	*/
 }
+
+void Game::remplirClients()
+{
+	ifstream fluxClients;
+	std::string image;
+
+	fluxClients.open("ressources/clients.txt");
+
+	if (!fluxClients.is_open())
+	{
+		cout << "Le fichier clients.txt est introuvable." << endl;
+		system("pause");
+		fluxClients.close();
+		exit(0);
+	}
+	//pour verifier si le fichier est vide
+	if (fluxClients.peek() == EOF) {
+		cout << "Le fichier clients.txt est vide." << endl;
+		exit(0);
+	}
+	while (!fluxClients.eof())
+	{
+		fluxClients >> image;
+		_clients.push_back(image);
+	}
+	for (int i = 0; i < _clients.size(); i++)
+	{
+		cout << _clients.at(i) << endl;
+	}
+}
+
+void Game::remplirIngredients()
+{
+	ifstream fluxIngredients;
+	std::string image;
+	fluxIngredients.open("ressources/ingredients.txt");
+
+	if (!fluxIngredients.is_open())
+	{
+		cout << "Le fichier ingredients.txt est introuvable." << endl;
+		system("pause");
+		fluxIngredients.close();
+		exit(0);
+	}
+	//pour verifier si le fichier est vide
+	if (fluxIngredients.peek() == EOF) {
+		cout << "Le fichier ingredients.txt est vide." << endl;
+		exit(0);
+	}
+
+	while (!fluxIngredients.eof())
+	{
+		fluxIngredients >> image;
+		_ingredients.push_back(image);
+	}
+	for (int i = 0; i < _ingredients.size(); i++)
+	{
+		cout << _ingredients.at(i) << endl;
+	}
+}
+
+// Faire le choix Aleatoire du client
+void Game::trouverClient()
+{
+	int index = numAleatoire(0, 3);
+	_textureClient1 = _clients.at(index);
+	_textureClient2 = _clients.at(index + 4);
+	cout << index + 1 << " - " << _textureClient1 << endl;
+	cout << index + 1 << " - " << _textureClient2 << endl;
+}
+
+// Faire le choix Aleatoire du Ingredient
+void Game::trouverIngredient()
+{
+	int index = numAleatoire(2, 13);
+	_textureIngredient = _ingredients.at(index);
+	//cout << index + 1 << " - " << _textureIngredient << endl;
+}
+
+void Game::afficherIngredientChoisi(Texture& texture, Sprite& ingredientChoisi, int index)
+{
+	_textureIngredient = _ingredients.at(index);
+	texture.loadFromFile(_textureIngredient);
+	ingredientChoisi.setTexture(texture);
+	ingredientChoisi.setScale(0.70, 0.70);
+	ingredientChoisi.setPosition(400, 378 - index * 30);
+}
+
+
+void Game::creerLigneScore(std::string mot)
+{
+	_ligneScore += mot + " ";
+}
+
+void Game::enregistrerLigneScore()
+{
+	ofstream monFlux("ressources/score.txt", ios::app);
+
+	if (!monFlux)
+	{
+		cout << "ERREUR: Impossible d'ouvrir le fichier" << endl;
+		exit(1);
+	}
+	monFlux << _ligneScore << endl;
+
+	monFlux.close();
+}
+
+void Game::ordonerScores(std::ifstream& monFlux, std::vector<std::string> scores[2])
+{
+	string jouer, score;
+
+	while (!monFlux.eof()) {
+		monFlux >> jouer >> score;
+		scores[0].push_back(score);
+		scores[1].push_back(_nomJoueur);
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		sort(scores[i].begin(), scores[i].end());
+	}
+
+}
+
+void Game::afficherScores()
+{
+	int position = 0;
+	ifstream monFlux("ressources/score.txt");
+	vector<string> scores[2];
+
+	if (!monFlux)
+	{
+		cout << "ERREUR: Impossible d'ouvrir le fichier" << endl;
+		exit(1);
+	}
+
+	ordonerScores(monFlux, scores);
+
+	cout << "  Class  Joueur  Score  " << endl;
+	cout << "  --------------------  " << endl;
+	while (!monFlux.eof()) {
+		cout.width(10);
+		cout << position + 1 << "º" << scores[1].at(position) << scores[0].at(position);
+		position++;
+	}
+
+	system("pause");
+	monFlux.close();
+}
+
+//afficherIngredientChoisi(textureIngredient, ingredientChoisi, 12);
+//_burger.push_back(ingredientChoisi);
+

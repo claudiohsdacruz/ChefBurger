@@ -2,12 +2,12 @@
 //
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include<vector>
 
 #include "client.h"
 //#include "burger.h"
 #include "ingredient.h"
-#include "fenetre.h"
 #include "game.h"
 
 
@@ -16,8 +16,11 @@ using namespace std; //en mettant ce namespace, ça évite des std::
 
 int main() {
 	
-	Game game; //Crée le jeu
+	locale::global(locale{ "" });
 
+	srand(time(NULL));
+	Game game; //Crée le jeu
+	
 	game.play(); //Commence le jeu
 	
 	return 0;
