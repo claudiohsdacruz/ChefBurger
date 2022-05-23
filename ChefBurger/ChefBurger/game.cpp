@@ -120,7 +120,7 @@ void Game::setIngredientChoisi(int x, int y, int i)
 
 }
 
-void Game::initialiseWindow()
+void Game::playGame()
 {
 	// Creation de variables du jeu
 
@@ -169,7 +169,6 @@ void Game::initialiseWindow()
 	// Variables d'affichage du Score
 	Font scoreFont;
 	Text afficherScore;
-	int score = 0;
 	int size = 1;
 
 	// Variables d'affichage du Temps
@@ -208,7 +207,7 @@ void Game::initialiseWindow()
 		// Initialisation du time du jeu
 		timeDuJeu = clockTime.getElapsedTime();
 		_time = timeDuJeu.asSeconds();
-		time = 60 - trunc(_time);
+		time = 20 - trunc(_time);
 
 		echange = clockEchange.getElapsedTime();
 
@@ -231,7 +230,7 @@ void Game::initialiseWindow()
 		// Paramètres de l'affichage du score
 		if (!affiche) {
 			std::ostringstream ssScore;
-			ssScore << "Score : " << score;
+			ssScore << "Score : " << _score;
 			afficherScore.setCharacterSize(30);
 			afficherScore.setPosition({ 20, 230 });
 			afficherScore.setFont(font);
@@ -261,7 +260,7 @@ void Game::initialiseWindow()
 				// Initialise l'ecran du Jeu
 				if (event.key.code == Keyboard::Space) {
 					
-					score = 0;
+					_score = 0;
 					system("cls");
 					_text.setString("");
 					affiche = false;
@@ -314,14 +313,15 @@ void Game::initialiseWindow()
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
-				clickSound.play();// Sound du click
+				
 				_text.setString("");
 				// Permet de choisir le ingredient pour monter le burger
 				if (event.mouseButton.button == sf::Mouse::Left)
 				{
 					// Premier pain
-					if (event.mouseButton.x > 109 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
+					if (event.mouseButton.x > 100 && event.mouseButton.x < 178 && event.mouseButton.y > 520 && event.mouseButton.y < 569)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(0);
 						x = 450;
 						y = 400;
@@ -334,6 +334,7 @@ void Game::initialiseWindow()
 					// Avocat
 					if (event.mouseButton.x > 270 && event.mouseButton.x < 340 && event.mouseButton.y > 522 && event.mouseButton.y < 561)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(1);
 						if (toucher)
 						{
@@ -346,6 +347,7 @@ void Game::initialiseWindow()
 					//Bacon
 					if (event.mouseButton.x > 430 && event.mouseButton.x < 495 && event.mouseButton.y > 530 && event.mouseButton.y < 558)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(2);
 						if (toucher)
 						{
@@ -358,6 +360,7 @@ void Game::initialiseWindow()
 					// Boeuf
 					if (event.mouseButton.x > 614 && event.mouseButton.x < 668 && event.mouseButton.y > 525 && event.mouseButton.y < 556)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(3);
 						if (toucher)
 						{
@@ -370,6 +373,7 @@ void Game::initialiseWindow()
 					// Cornichon
 					if (event.mouseButton.x > 750 && event.mouseButton.x < 850 && event.mouseButton.y > 520 && event.mouseButton.y < 570)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(4);
 						if (toucher)
 						{
@@ -382,6 +386,7 @@ void Game::initialiseWindow()
 					// Salade
 					if (event.mouseButton.x > 900 && event.mouseButton.x < 1020 && event.mouseButton.y > 520 && event.mouseButton.y < 570)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(5);
 						if (toucher)
 						{
@@ -394,6 +399,7 @@ void Game::initialiseWindow()
 					// Oeuf
 					if (event.mouseButton.x > 1070 && event.mouseButton.x < 1175 && event.mouseButton.y > 527 && event.mouseButton.y < 570)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(6);
 						if (toucher)
 						{
@@ -406,6 +412,7 @@ void Game::initialiseWindow()
 					// Oignon
 					if (event.mouseButton.x > 112 && event.mouseButton.x < 176 && event.mouseButton.y > 620 && event.mouseButton.y < 666)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(7);
 						if (toucher)
 						{
@@ -418,6 +425,7 @@ void Game::initialiseWindow()
 					// Poivron
 					if (event.mouseButton.x > 269 && event.mouseButton.x < 341 && event.mouseButton.y > 621 && event.mouseButton.y < 663)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(8);
 						if (toucher)
 						{
@@ -430,6 +438,7 @@ void Game::initialiseWindow()
 					// Tomate
 					if (event.mouseButton.x > 430 && event.mouseButton.x < 530 && event.mouseButton.y > 621 && event.mouseButton.y < 660)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(9);
 						if (toucher)
 						{
@@ -442,6 +451,7 @@ void Game::initialiseWindow()
 					// Jambon
 					if (event.mouseButton.x > 590 && event.mouseButton.x < 690 && event.mouseButton.y > 627 && event.mouseButton.y < 662)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(10);
 						if (toucher)
 						{
@@ -454,6 +464,7 @@ void Game::initialiseWindow()
 					//Fromage
 					if (event.mouseButton.x > 740 && event.mouseButton.x < 860 && event.mouseButton.y > 623 && event.mouseButton.y < 651)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(11);
 						if (toucher)
 						{
@@ -466,6 +477,7 @@ void Game::initialiseWindow()
 					// Deuxième pain
 					if (event.mouseButton.x > 905 && event.mouseButton.x < 1005 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
 					{
+						clickSound.play();// Sound du click
 						pos.push_back(12);
 						if (toucher)
 						{
@@ -477,8 +489,9 @@ void Game::initialiseWindow()
 					}
 					burgerComplet = validerDemande(pos, index, index1, index2);
 					// Delivrer
-					if (event.mouseButton.x > 1045 && event.mouseButton.x < 1145 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
+					if (event.mouseButton.x > 1080 && event.mouseButton.x < 1180 && event.mouseButton.y > 615 && event.mouseButton.y < 674)
 					{
+						clickSound.play();// Sound du click
 						if (burgerComplet)
 						{
 							trouverClient();
@@ -490,7 +503,7 @@ void Game::initialiseWindow()
 
 							// Recupérer la demande
 							_ingredient.ingredientsAleatoires(index, index1, index2);
-							cout << validerDemande(pos, index, index1, index2) << endl;
+							//cout << validerDemande(pos, index, index1, index2) << endl;
 
 							for (int i = 0; i < 13; i++)
 							{
@@ -498,8 +511,14 @@ void Game::initialiseWindow()
 							}
 
 							// Ajouter le pointage sur le score
-							score += 10;
-							_scoreTotal += score;
+							if (echange.asSeconds() > 10) {
+								_score += 5;
+							}
+							else {
+								_score += 10;
+							}
+
+							// Reinitialise les clock
 							elapsed = clock.restart();
 							echange = clockEchange.restart();
 						}
@@ -526,7 +545,6 @@ void Game::initialiseWindow()
 			}
 			if (echange.asSeconds() > 15) {
 				trouverClient();
-				cout << "Echange : " << echange.asSeconds() << endl;
 				echange = clockEchange.restart();
 				
 				// Paramètres du client
@@ -537,7 +555,6 @@ void Game::initialiseWindow()
 
 				// Recupérer la demande
 				_ingredient.ingredientsAleatoires(index, index1, index2);
-				cout << validerDemande(pos, index, index1, index2) << endl;
 
 				for (int i = 0; i < 13; i++)
 				{
@@ -569,10 +586,9 @@ void Game::initialiseWindow()
 		}
 
 		if (time < 0) {
-			cout << time << endl;
 			setText(finDeJeu, "GAME OVER", font, 550, 350, 42, Color::Red);
 			if (time < -2) {
-				setText(_text, "Touche deux fois <Espace> pour rejouer ou <Esc> pour sortir", font, 150, 360, 42, Color::Red);
+				setText(_text, "Touche deux fois <Espace> pour rejouer ou <Esc> pour sortir", font, 80, 700, 38, Color::Red);
 				elapsed = clock.restart();
 			}
 			endGame();
@@ -640,9 +656,7 @@ bool Game::validerDemande(vector <int> pos, int& index, int& index1, int& index2
 	{
 		burgerComplet = true;
 	}
-	cout << ingredientPresent1 << " - " << ingredientPresent2 << " - " << ingredientPresent3 << " - " << ingredientPresent4 << " - " << ingredientPresent5 << " - " << endl;
 
-	
 	return burgerComplet;
 }
 
@@ -652,13 +666,13 @@ void Game::play()
 	char reponse = ' ';
 	afficherInstruction();
 	demanderNomJoueur();
-	initialiseWindow();
-
-	this->printEndGame(cout); //Affiche la message de fin du jeu
+	playGame();
 
 	if (_lose) {
 		creerLigneScore(_nomJoueur);
 		creerLigneScore(to_string(_score));
+		enregistrerLigneScore();
+		afficherScores();
 	}
 	laisserCommentaire(commentaire, reponse);
 	statistiqueDuJeu( commentaire);
@@ -678,7 +692,6 @@ Client Game::randClient() const
 void Game::endGame()
 {
 	_lose = true;
-	printEndGame(cout);
 }
 
 void Game::printEndGame(std::ostream& sortie) const
@@ -710,10 +723,6 @@ void Game::remplirClients()
 		fluxClients >> image;
 		_clients.push_back(image);
 	}
-	for (int i = 0; i < _clients.size(); i++)
-	{
-		cout << _clients.at(i) << endl;
-	}
 }
 
 void Game::remplirIngredients()
@@ -740,10 +749,6 @@ void Game::remplirIngredients()
 		fluxIngredients >> image;
 		_ingredients.push_back(image);
 	}
-	for (int i = 0; i < _ingredients.size(); i++)
-	{
-		cout << _ingredients.at(i) << endl;
-	}
 }
 
 // Faire le choix Aleatoire du client
@@ -752,8 +757,6 @@ void Game::trouverClient()
 	int index = numAleatoire(0, 3);
 	_textureClient1 = _clients.at(index);
 	_textureClient2 = _clients.at(index + 4);
-	cout << index + 1 << " - " << _textureClient1 << endl;
-	cout << index + 1 << " - " << _textureClient2 << endl;
 }
 
 // Faire le choix Aleatoire du Ingredient
@@ -864,9 +867,9 @@ void Game::afficherInstruction()
 		<< "\t" << "\t" << "appuyer sur la touche 'esc' pour quitter" << endl
 		<< "\t" << "\t" << "Noter aussi qu'il est possible d'effectuer les action cités précedemment à n'importe quel moment du jeu" << endl
 		<< "\t" << "\t" << "Vous devez aussi savoir que vous commencez une nouvelle partie à chaque fois que vous appuyer 'espace'" << endl << endl
-		<< "\t" << "\t" << "Vous trouverez les statistiques de votre jeu (nombre de parties, score final pour l'ensemble des parties, nom, moyenne de score)" << endl 
-		<< "\t" << "\t" << " dans le fichier texte 'statistiqueDuJeu'" << endl
-		<< "\t" << "\t" << " Il est aussi possible de laisser un commentaire à la fin du jeu" << endl
+		<< "\t" << "\t" << "Vous trouverez les statistiques de votre jeu (nombre de parties, score final pour l'ensemble des parties, " << endl 
+		<< "\t" << "\t" << "nom, moyenne de score) dans le fichier texte 'statistiqueDuJeu'" << endl
+		<< "\t" << "\t" << "Il est aussi possible de laisser un commentaire à la fin du jeu" << endl
 		<< endl << endl;
 }
 

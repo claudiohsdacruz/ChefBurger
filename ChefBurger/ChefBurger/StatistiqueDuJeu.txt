@@ -26,3 +26,66 @@ Moyenne des scores : 5
 Nombre de parties jouées : 2
 Commentaire : bien
 
+****************************Joueur : Claudio*****************************
+
+Score Total : 280
+Moyenne des scores : 280
+Nombre de parties jouées : 1
+Commentaire : Commentaire claudio
+
+****************************Joueur : Claudio*****************************
+
+Score Total : 210
+Moyenne des scores : 105
+Nombre de parties jouées : 2
+Commentaire : Aucun
+
+****************************Joueur : Claudio*****************************
+
+Score Total : 100
+Moyenne des scores : 50
+Nombre de parties jouées : 2
+Commentaire : Aucun
+
+****************************Joueur : Lucas*****************************
+
+Score Total : 0
+Moyenne des scores : 0
+Nombre de parties jouées : 2
+Commentaire : Aucun
+
+****************************Joueur : Cacau*****************************
+
+Score Total : 0
+Moyenne des scores : 0
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
+****************************Joueur : juca*****************************
+
+Score Total : 0
+Moyenne des scores : 0
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
+****************************Joueur : Luc*****************************
+
+Score Total : 0
+Moyenne des scores : 0
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
+****************************Joueur : Rian*****************************
+
+Score Total : 0
+Moyenne des scores : 0
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
+****************************Joueur : Fabio*****************************
+
+Score Total : 0
+Moyenne des scores : 0
+Nombre de parties jouées : 1
+Commentaire : Aucun
+

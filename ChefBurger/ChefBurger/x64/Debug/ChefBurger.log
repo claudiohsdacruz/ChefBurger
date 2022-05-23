@@ -1,43 +1,39 @@
-﻿  ChefBurger.cpp
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\ChefBurger.cpp(25,12): warning C4244: 'argument' : conversion de 'time_t' en 'unsigned int', perte possible de données
-  client.cpp
-  game.cpp
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(60,9): warning C4244: 'return' : conversion de 'const double' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(114,26): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(114,20): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(119,54): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(119,51): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(294,32): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(329,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(329,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(342,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(342,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(354,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(354,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(366,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(366,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(378,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(378,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(390,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(390,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(402,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(402,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(414,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(414,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(426,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(426,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(438,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(438,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(450,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(450,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(462,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(462,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(474,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(474,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(488,34): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(524,31): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(535,31): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(772,38): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\ChefBurger\game.cpp(773,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
-  Génération de code en cours...
-  ChefBurger.vcxproj -> C:\Users\maimo\Documents\Git\ChefBurger\ChefBurger\x64\Debug\ChefBurger.exe
+﻿  game.cpp
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(60,9): warning C4244: 'return' : conversion de 'const double' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(114,26): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(114,20): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(119,54): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(119,51): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(293,32): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(329,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(329,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(343,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(343,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(356,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(356,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(369,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(369,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(382,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(382,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(395,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(395,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(408,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(408,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(421,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(421,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(434,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(434,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(447,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(447,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(460,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(460,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(473,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(473,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(486,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(486,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(501,34): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(543,31): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(553,31): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(775,38): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(776,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  ChefBurger.vcxproj -> C:\Users\claud\ChefBurger\ChefBurger\x64\Debug\ChefBurger.exe

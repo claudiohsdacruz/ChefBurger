@@ -48,7 +48,7 @@ public:
 	void setText(sf::Text& text, const char* message, sf::Font& font, int posX, int posY, int taille, const sf::Color& color);
 	void setIngredientChoisi(int x, int y, int i);
 
-	void initialiseWindow();
+	void playGame();
 	void initialiseJeu();
 	void demanderNomJoueur();
 	bool validerDemande(std::vector <int> pos, int& index, int& index1, int& index2);
