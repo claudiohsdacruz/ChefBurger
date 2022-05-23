@@ -32,8 +32,8 @@ C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(473,39): warning C4244:
 C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(486,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
 C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(486,39): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
 C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(501,34): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(543,31): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(553,31): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(775,38): warning C4305: 'argument' : troncation de 'double' à 'float'
-C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(776,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(545,31): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(555,31): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(777,38): warning C4305: 'argument' : troncation de 'double' à 'float'
+C:\Users\claud\ChefBurger\ChefBurger\ChefBurger\game.cpp(778,40): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
   ChefBurger.vcxproj -> C:\Users\claud\ChefBurger\ChefBurger\x64\Debug\ChefBurger.exe

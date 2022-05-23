@@ -5,3 +5,5 @@ Manuel 30
 Ryan 20 
 Fabio 25 
 Marc 20 
+Sarah 10 
+Sandra 35 

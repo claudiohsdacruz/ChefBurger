@@ -89,3 +89,17 @@ Moyenne des scores : 0
 Nombre de parties jouées : 1
 Commentaire : Aucun
 
+****************************Joueur : Sarah*****************************
+
+Score Total : 0
+Moyenne des scores : 0
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
+****************************Joueur : Sandra*****************************
+
+Score Total : 105
+Moyenne des scores : 105
+Nombre de parties jouées : 1
+Commentaire : Aucun
+
