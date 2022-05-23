@@ -207,7 +207,7 @@ void Game::playGame()
 		// Initialisation du time du jeu
 		timeDuJeu = clockTime.getElapsedTime();
 		_time = timeDuJeu.asSeconds();
-		time = 20 - trunc(_time);
+		time = 60 - trunc(_time);
 
 		echange = clockEchange.getElapsedTime();
 
